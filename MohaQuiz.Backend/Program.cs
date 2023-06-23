@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.DataBase;
 using MohaQuiz.Backend.MiddleWareConfigs;
+using MohaQuiz.Backend.Repositories;
+using MohaQuiz.Backend.Services;
 using System;
 
 namespace MohaQuiz.Backend;
@@ -19,6 +22,10 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        builder.Services.AddScoped<IGameProcessService,GameProcessService>();
+        builder.Services.AddScoped<IQuizRepository,QuizRepository>();
+        builder.Services.AddScoped<IQuizService,QuizService>();
 
         builder.Services.AddCorsRules();
 

@@ -8,11 +8,8 @@ public static class CorsRules
                 .AddDefaultPolicy(policyConfig => policyConfig
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowAnyOrigin()));
-
-        //TODO manage origin to SignalR
-        //.AllowCredentials()
-        //.WithOrigins("http://localhost:4200")))
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200")));
 
         return services;
     }

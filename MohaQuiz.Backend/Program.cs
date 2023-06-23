@@ -28,6 +28,7 @@ public class Program
         builder.Services.AddScoped<IQuizService,QuizService>();
 
         builder.Services.AddCorsRules();
+        builder.Services.AddSignalR();
 
         var app = builder.Build();
 
@@ -41,6 +42,8 @@ public class Program
 
         app.MapControllers();
         app.MapFallbackToFile("index.html");
+
+        app.MapHub<GameControlHub>("/gamecontrolhub");
 
         app.Run();
     }

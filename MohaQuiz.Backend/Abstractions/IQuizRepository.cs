@@ -2,4 +2,5 @@
 
 public interface IQuizRepository
 {
+    Task CreateTeam(string teamNameToCreate);
 }

@@ -1,4 +1,5 @@
-﻿using MohaQuiz.Backend.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.DataBase;
 using MohaQuiz.Backend.Helpers;
 using MohaQuiz.Backend.Models;
@@ -15,18 +16,40 @@ public class QuizRepository : IQuizRepository
         _context = context;
     }
 
-    public async Task CreateTeam(string teamNameToCreate)
+    public async Task<Team> CreateTeamAsync(string teamNameToCreate)
     {
         Team newTeam;
 
-        bool isTeamNameExists = _context.Teams.Any(t => t.TeamName == teamNameToCreate);
+        bool isTeamNameExists = await _context.Teams.AnyAsync(t => t.TeamName == teamNameToCreate);
 
         if (isTeamNameExists)
             throw new QuizException(HttpStatusCode.BadRequest, "The teamName already exist");
-        else
+
+        newTeam = new Team() { TeamName = teamNameToCreate };
+        _context.Teams.Add(newTeam);
+        await _context.SaveChangesAsync();
+
+        return newTeam;
+    }
+
+    public async Task<Team?> IsTeamCreatedAsync(string teamName)
+    {
+        Team? team = await _context.Teams.FirstOrDefaultAsync(t => t.TeamName == teamName);
+        return team;
+    }
+
+    public async Task<IEnumerable<Team>> GetAllTeamNamesAsync()
+    {
+        return await _context.Teams.ToListAsync();
+    }
+
+    public async Task DeleteTeamAsync(string teamName)
+    {
+        Team? teamToDelete = await _context.Teams.FirstOrDefaultAsync(t =>t.TeamName == teamName);
+
+        if (teamToDelete is not null)
         {
-            newTeam = new Team() { TeamName = teamNameToCreate };
-            _context.Teams.Add(newTeam);
+            _context.Teams.Remove(teamToDelete);
             await _context.SaveChangesAsync();
         }
     }

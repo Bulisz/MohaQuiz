@@ -7,5 +7,5 @@ public class Team
 {
     public int Id { get; set; }
     public string TeamName { get; set; } = string.Empty;
-    public ICollection<TeamAnswer> TeamAnswers { get; set; }
+    public ICollection<TeamAnswer>? TeamAnswers { get; set; }
 }

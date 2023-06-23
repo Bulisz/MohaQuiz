@@ -1,0 +1,22 @@
+@quizcontroller = https://localhost:5001/mohaquiz/quiz
+
+###
+
+POST {{quizcontroller}}/createteam
+Content-Type: application/json
+
+{
+    "teamName" : "Valakik"
+}
+
+###
+
+GET {{quizcontroller}}/isteamcreated/valakik
+
+###
+
+GET {{quizcontroller}}/getallteamnames
+
+###
+
+DELETE {{quizcontroller}}/deleteteam/Hasdasdasd

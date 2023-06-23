@@ -17,16 +17,37 @@ public class QuizController : ControllerBase
     }
 
     [HttpPost(nameof(CreateTeam))]
-    public async Task<ActionResult> CreateTeam(TeamNameDTO teamNameDTO)
+    public async Task<ActionResult<TeamNameDTO>> CreateTeam(TeamNameDTO teamNameDTO)
     {
         try
         {
-            await _quizService.CreateTeam(teamNameDTO);
-            return Ok();
+            TeamNameDTO createdTeamNameDTO = await _quizService.CreateTeamAsync(teamNameDTO);
+            return Ok(createdTeamNameDTO);
         }
         catch (QuizException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
+    }
+
+    [HttpGet("isteamcreated/{teamname}")]
+    public async Task<ActionResult<TeamNameDTO>> IsTeamCreated(string teamName)
+    {
+        TeamNameDTO? teamNameDTO = await _quizService.IsTeamCreatedAsync(teamName);
+        return Ok(teamNameDTO);
+    }
+
+    [HttpGet(nameof(GetAllTeamNames))]
+    public async Task<ActionResult<IEnumerable<string>>> GetAllTeamNames()
+    {
+        IEnumerable<string> allTeamNames = await _quizService.GetAllTeamNamesAsync();
+        return Ok(allTeamNames);
+    }
+
+    [HttpDelete("deleteteam/{teamname}")]
+    public async Task<ActionResult> DeleteTeam(string teamName)
+    {
+        await _quizService.DeleteTeamAsync(teamName);
+        return Ok();
     }
 }

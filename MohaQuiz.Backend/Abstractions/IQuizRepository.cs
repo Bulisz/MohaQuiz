@@ -1,6 +1,12 @@
-﻿namespace MohaQuiz.Backend.Abstractions;
+﻿using MohaQuiz.Backend.Models;
+using MohaQuiz.Backend.Models.DTOs;
+
+namespace MohaQuiz.Backend.Abstractions;
 
 public interface IQuizRepository
 {
-    Task CreateTeam(string teamNameToCreate);
+    Task<Team> CreateTeamAsync(string teamNameToCreate);
+    Task<Team?> IsTeamCreatedAsync(string teamName);
+    Task<IEnumerable<Team>> GetAllTeamNamesAsync();
+    Task DeleteTeamAsync(string teamName);
 }

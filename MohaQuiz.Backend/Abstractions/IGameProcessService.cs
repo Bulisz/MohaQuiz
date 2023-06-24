@@ -2,4 +2,6 @@
 
 public interface IGameProcessService
 {
+    void NextRound();
+    void NextQuestion();
 }

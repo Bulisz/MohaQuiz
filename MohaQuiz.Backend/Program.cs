@@ -26,7 +26,7 @@ public class Program
         builder.Services.AddScoped<IGameProcessService,GameProcessService>();
         builder.Services.AddScoped<IQuizRepository,QuizRepository>();
         builder.Services.AddScoped<IQuizService,QuizService>();
-        builder.Services.AddScoped<IGameControlHub,GameControlHub>();
+        builder.Services.AddSingleton<IGameControlHub,GameControlHub>();
 
         builder.Services.AddCorsRules();
         builder.Services.AddSignalR();

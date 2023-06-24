@@ -1,0 +1,11 @@
+@gameprocesscontroller = https://localhost:5001/mohaquiz/gameprocess
+
+###
+
+GET {{gameprocesscontroller}}/nextround
+
+###
+
+GET {{gameprocesscontroller}}/nextquestion
+
+###

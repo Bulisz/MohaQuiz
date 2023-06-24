@@ -10,6 +10,7 @@ namespace MohaQuiz.Backend.Repositories;
 public class QuizRepository : IQuizRepository
 {
     private readonly AppDbContext _context;
+    private static readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
     public QuizRepository(AppDbContext context)
     {
@@ -20,14 +21,22 @@ public class QuizRepository : IQuizRepository
     {
         Team newTeam;
 
-        bool isTeamNameExists = await _context.Teams.AnyAsync(t => t.TeamName == teamNameToCreate);
+        await _semaphoreSlim.WaitAsync();
+        try
+        {
+            bool isTeamNameExists = await _context.Teams.AnyAsync(t => t.TeamName == teamNameToCreate);
 
-        if (isTeamNameExists)
-            throw new QuizException(HttpStatusCode.BadRequest, "The teamName already exist");
+            if (isTeamNameExists)
+                throw new QuizException(HttpStatusCode.BadRequest, "The teamName already exist");
 
-        newTeam = new Team() { TeamName = teamNameToCreate };
-        _context.Teams.Add(newTeam);
-        await _context.SaveChangesAsync();
+            newTeam = new Team() { TeamName = teamNameToCreate };
+            _context.Teams.Add(newTeam);
+            await _context.SaveChangesAsync();
+        }
+        finally
+        {
+            _semaphoreSlim.Release();
+        }
 
         return newTeam;
     }
@@ -45,7 +54,7 @@ public class QuizRepository : IQuizRepository
 
     public async Task DeleteTeamAsync(string teamName)
     {
-        Team? teamToDelete = await _context.Teams.FirstOrDefaultAsync(t =>t.TeamName == teamName);
+        Team? teamToDelete = await _context.Teams.FirstOrDefaultAsync(t => t.TeamName == teamName);
 
         if (teamToDelete is not null)
         {

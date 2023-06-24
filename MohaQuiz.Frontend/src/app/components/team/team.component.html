@@ -1,0 +1,12 @@
+<div class="body">
+    <mat-card class="card">
+        <mat-card-header>Csapatnév:</mat-card-header>
+        <form [formGroup]="teamNameForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <input matInput placeholder="Írd be a csapatnevet" formControlName="teamName">
+                <mat-error *ngIf="teamNameForm.get('teamName')?.errors?.['ServerError']">{{teamNameForm.get('teamName')?.errors?.['ServerError']}}</mat-error>
+            </mat-form-field>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!teamNameForm.valid">Elküld</button>
+        </form>
+    </mat-card>
+</div>

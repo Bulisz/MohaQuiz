@@ -4,7 +4,8 @@ namespace MohaQuiz.Backend.Abstractions
 {
     public interface IGameControlHub
     {
-        Task SendTeamNamesToAdmin(IQuizService quizService);
-        Task SendGameProcessState(GameProcessStateDTO actualGameProcess);
+        //Task SendTeamNamesToAdminAsync(IEnumerable<string> teamNames);
+        Task SendGameProcessStateAsync(GameProcessStateDTO actualGameProcess);
+        Task SendTeamNamesToAdminAsync(IQuizService quizService);
     }
 }

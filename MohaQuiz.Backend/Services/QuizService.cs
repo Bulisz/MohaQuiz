@@ -11,11 +11,13 @@ public class QuizService : IQuizService
 {
     private readonly IQuizRepository _quizRepository;
     private readonly IMapper _mapper;
+    private readonly IGameControlHub _gameControlHub;
 
-    public QuizService(IQuizRepository quizRepository, IMapper mapper)
+    public QuizService(IQuizRepository quizRepository, IMapper mapper, IGameControlHub gameControlHub)
     {
         _quizRepository = quizRepository;
         _mapper = mapper;
+        _gameControlHub = gameControlHub;
     }
 
     public async Task<TeamNameDTO> CreateTeamAsync(TeamNameDTO teamNameDTO)
@@ -27,7 +29,12 @@ public class QuizService : IQuizService
         else
             teamNameToCreate = teamNameDTO.TeamName[..1].ToUpper() + teamNameDTO.TeamName[1..];
 
-        return _mapper.Map<TeamNameDTO>(await _quizRepository.CreateTeamAsync(teamNameToCreate));
+        TeamNameDTO newTeamDTO = _mapper.Map<TeamNameDTO>(await _quizRepository.CreateTeamAsync(teamNameToCreate));
+
+        //IEnumerable<string> teamNames = await GetAllTeamNamesAsync();
+        //await _gameControlHub.SendTeamNamesToAdminAsync(teamNames);
+
+        return newTeamDTO;
     }
 
     public async Task<TeamNameDTO?> IsTeamCreatedAsync(string teamName)

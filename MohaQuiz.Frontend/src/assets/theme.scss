@@ -3,7 +3,7 @@
 
 //https://mui.com/material-ui/customization/color/
 $my-primary: mat-palette($mat-teal, 800);
-$my-accent: mat-palette($mat-light-green, 800);
+$my-accent: mat-palette($mat-brown, 800);
 $my-warn: mat-palette($mat-pink, 800);
 
 $my-theme: mat-light-theme($my-primary, $my-accent, $my-warn);

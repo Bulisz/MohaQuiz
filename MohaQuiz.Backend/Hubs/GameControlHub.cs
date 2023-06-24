@@ -6,14 +6,20 @@ namespace MohaQuiz.Backend.Hubs;
 
 public class GameControlHub : Hub, IGameControlHub
 {
-    public async Task SendTeamNamesToAdmin(IQuizService quizService)
+    //public async Task SendTeamNamesToAdminAsync(IEnumerable<string> teamNames)
+    //{
+    //    await Clients.All.SendAsync("GetTeamNames", teamNames);
+    //}
+
+    public async Task SendGameProcessStateAsync(GameProcessStateDTO actualGameProcess)
+    {
+        await Clients.All.SendAsync("GetGameProcessState", actualGameProcess);
+    }
+
+    public async Task SendTeamNamesToAdminAsync(IQuizService quizService)
     {
         IEnumerable<string> teamNames = await quizService.GetAllTeamNamesAsync();
         await Clients.All.SendAsync("GetTeamNames", teamNames);
     }
 
-    public async Task SendGameProcessState(GameProcessStateDTO actualGameProcess)
-    {
-        await Clients.All.SendAsync("GetGameProcessState", actualGameProcess);
-    }
 }

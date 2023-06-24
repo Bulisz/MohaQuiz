@@ -24,14 +24,14 @@ public class GameProcessService : IGameProcessService
             _gameProcessArray = CURRENT_GAME_PROCESS;
             _actualRoundNumber++;
             _actualQuestionNumber = 0;
-            _gameControlHub.SendGameProcessState(GetActualGameProcess());
+            _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
             //game begins
         }
         else
         {
             _actualRoundNumber++;
             _actualQuestionNumber = 0;
-            _gameControlHub.SendGameProcessState(GetActualGameProcess());
+            _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
         }
 
         if (_actualRoundNumber == _gameProcessArray!.Length)
@@ -48,7 +48,7 @@ public class GameProcessService : IGameProcessService
     public void NextQuestion()
     {
         _actualQuestionNumber++;
-        _gameControlHub.SendGameProcessState(GetActualGameProcess());
+        _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
 
         if (_gameProcessArray![_actualRoundNumber - 1] == _actualQuestionNumber)
         {

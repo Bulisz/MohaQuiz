@@ -22,7 +22,6 @@ export class QuizService {
       .then(res => {
         localStorage.setItem('teamName',res.teamName)
         this.teamName.next(res.teamName)
-        this.hc.send('SendTeamNamesToAdminAsync')
       })
   }
 

@@ -1,4 +1,6 @@
-﻿using MohaQuiz.Backend.Abstractions;
+﻿using Microsoft.AspNetCore.SignalR;
+using MohaQuiz.Backend.Abstractions;
+using MohaQuiz.Backend.Hubs;
 using MohaQuiz.Backend.Models.DTOs;
 
 namespace MohaQuiz.Backend.Services;
@@ -10,11 +12,11 @@ public class GameProcessService : IGameProcessService
     private static int[]? _gameProcessArray;
 
     private static readonly int[] CURRENT_GAME_PROCESS = new int[] { 5, 5, 5, 5, 5, 5 };
-    private readonly IGameControlHub _gameControlHub;
+    private readonly IHubContext<GameControlHub> _hubContext;
 
-    public GameProcessService(IGameControlHub gameControlHub)
+    public GameProcessService(IHubContext<GameControlHub> hubContext)
     {
-        _gameControlHub = gameControlHub;
+        _hubContext = hubContext;
     }
 
     public void NextRound()
@@ -24,14 +26,12 @@ public class GameProcessService : IGameProcessService
             _gameProcessArray = CURRENT_GAME_PROCESS;
             _actualRoundNumber++;
             _actualQuestionNumber = 0;
-            _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
             //game begins
         }
         else
         {
             _actualRoundNumber++;
             _actualQuestionNumber = 0;
-            _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
         }
 
         if (_actualRoundNumber == _gameProcessArray!.Length)
@@ -43,12 +43,13 @@ public class GameProcessService : IGameProcessService
         {
             //game ends
         }
+
+        _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
     public void NextQuestion()
     {
         _actualQuestionNumber++;
-        _gameControlHub.SendGameProcessStateAsync(GetActualGameProcess());
 
         if (_gameProcessArray![_actualRoundNumber - 1] == _actualQuestionNumber)
         {
@@ -59,6 +60,8 @@ public class GameProcessService : IGameProcessService
         {
             //round ends
         }
+
+        _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
     private static GameProcessStateDTO GetActualGameProcess()

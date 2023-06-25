@@ -10,6 +10,7 @@ public class Question
     public int QuestionNumber { get; set; }
     public int FullScore { get; set; }
     public string QuestionText { get; set; } = string.Empty;
+    public Round Round { get; set; }
     public ICollection<CorrectAnswer> CorrectAnswers { get; set; }
     public ICollection<TeamAnswer> TeamAnswers { get; set; }
 }

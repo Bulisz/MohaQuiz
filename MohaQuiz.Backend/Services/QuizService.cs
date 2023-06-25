@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.Helpers;
+using MohaQuiz.Backend.Hubs;
 using MohaQuiz.Backend.Models;
 using MohaQuiz.Backend.Models.DTOs;
 using System.Net;
@@ -11,13 +13,13 @@ public class QuizService : IQuizService
 {
     private readonly IQuizRepository _quizRepository;
     private readonly IMapper _mapper;
-    private readonly IGameControlHub _gameControlHub;
+    private readonly IHubContext<GameControlHub> _hubContext;
 
-    public QuizService(IQuizRepository quizRepository, IMapper mapper, IGameControlHub gameControlHub)
+    public QuizService(IQuizRepository quizRepository, IMapper mapper, IHubContext<GameControlHub> hubContext)
     {
         _quizRepository = quizRepository;
         _mapper = mapper;
-        _gameControlHub = gameControlHub;
+        _hubContext = hubContext;
     }
 
     public async Task<TeamNameDTO> CreateTeamAsync(TeamNameDTO teamNameDTO)
@@ -31,8 +33,8 @@ public class QuizService : IQuizService
 
         TeamNameDTO newTeamDTO = _mapper.Map<TeamNameDTO>(await _quizRepository.CreateTeamAsync(teamNameToCreate));
 
-        //IEnumerable<string> teamNames = await GetAllTeamNamesAsync();
-        //await _gameControlHub.SendTeamNamesToAdminAsync(teamNames);
+        IEnumerable<string> teamNames = await GetAllTeamNamesAsync();
+        await _hubContext.Clients.All.SendAsync("GetTeamNames", teamNames);
 
         return newTeamDTO;
     }

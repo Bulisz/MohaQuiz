@@ -1,0 +1,32 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+}
+
+.content mat-card-header {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-container {
+    width: 95%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.rnd-btn {
+    font-size: 0.7rem;
+}

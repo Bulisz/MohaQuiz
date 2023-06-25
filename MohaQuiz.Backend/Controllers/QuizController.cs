@@ -44,10 +44,17 @@ public class QuizController : ControllerBase
         return Ok(allTeamNames);
     }
 
-    [HttpDelete("deleteteam/{teamname}")]
-    public async Task<ActionResult> DeleteTeam(string teamName)
+    [HttpGet("getrounddetails/{roundnumber}")]
+    public async Task<ActionResult<RoundDetailsDTO>> GetRoundDetails(int roundnumber)
     {
-        await _quizService.DeleteTeamAsync(teamName);
+        RoundDetailsDTO roundDetailsDTO = await _quizService.GetRoundDetailsAsync(roundnumber);
+        return Ok(roundDetailsDTO);
+    }
+
+    [HttpGet(nameof(ResetGame))]
+    public async Task<ActionResult> ResetGame()
+    {
+        await _quizService.ResetGameAsync();
         return Ok();
     }
 }

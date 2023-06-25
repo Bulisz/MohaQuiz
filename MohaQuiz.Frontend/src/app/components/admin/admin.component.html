@@ -1,1 +1,11 @@
-<p>admin works!</p>
+
+  <div class="body">
+    <mat-card class="content">
+      <mat-card-header>Game Start</mat-card-header>
+      <button mat-raised-button color="primary" class="start-btn" (click)="startGame()" [disabled]="!teamNames.length || gameProcessState.isGameStarted">START</button>
+    </mat-card>
+  </div>
+
+  <app-warmup-round-admin *ngIf="gameProcessState.roundNumber === 1"></app-warmup-round-admin>
+
+  <button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>

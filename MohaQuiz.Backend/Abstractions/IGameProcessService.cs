@@ -2,6 +2,9 @@
 
 public interface IGameProcessService
 {
-    void NextRound();
-    void NextQuestion();
+    Task NextRound();
+    Task NextQuestion();
+    Task StartGame();
+    bool IsGameStarted();
+    Task ResetGame();
 }

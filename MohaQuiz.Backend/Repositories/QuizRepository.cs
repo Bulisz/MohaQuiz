@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.DataBase;
 using MohaQuiz.Backend.Helpers;
 using MohaQuiz.Backend.Models;
+using MohaQuiz.Backend.Models.DTOs;
 using System.Net;
 
 namespace MohaQuiz.Backend.Repositories;
@@ -52,14 +54,21 @@ public class QuizRepository : IQuizRepository
         return await _context.Teams.ToListAsync();
     }
 
-    public async Task DeleteTeamAsync(string teamName)
+    public async Task<Round> GetRoundDetailsAsync(int roundnumber)
     {
-        Team? teamToDelete = await _context.Teams.FirstOrDefaultAsync(t => t.TeamName == teamName);
+        Round round = (await _context.Rounds.Include(r => r.RoundType)
+                                           .Include(r => r.Questions)
+                                           .ThenInclude(q => q.CorrectAnswers)
+                                           .FirstOrDefaultAsync(r => r.RoundNumber == roundnumber))!;
+        return round;
+    }
 
-        if (teamToDelete is not null)
-        {
-            _context.Teams.Remove(teamToDelete);
-            await _context.SaveChangesAsync();
-        }
+    public async Task ResetGameAsync()
+    {
+        var teamAnswers = await _context.TeamAnswers.ToListAsync();
+        var teams = await _context.Teams.ToListAsync();
+        _context.TeamAnswers.RemoveRange(teamAnswers);
+        _context.Teams.RemoveRange(teams);
+        await _context.SaveChangesAsync();
     }
 }

@@ -13,5 +13,9 @@ public class MappingProfiles : Profile
 
         CreateMap<Team, TeamNameDTO>();
         CreateMap<TeamNameDTO, Team>();
+        CreateMap<Round, RoundDetailsDTO>();
+        CreateMap<RoundType, RoundTypeDTO>();
+        CreateMap<Question, QuestionDTO>();
+        CreateMap<CorrectAnswer, CorrectAnswerDTO>();
     }
 }

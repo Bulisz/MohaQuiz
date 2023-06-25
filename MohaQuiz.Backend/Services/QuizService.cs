@@ -51,9 +51,13 @@ public class QuizService : IQuizService
         return teams.Select(t => t.TeamName);
     }
 
-    public async Task DeleteTeamAsync(string teamName)
+    public async Task<RoundDetailsDTO> GetRoundDetailsAsync(int roundnumber)
     {
-        string teamNameToDelete = teamName[..1].ToUpper() + teamName[1..];
-        await _quizRepository.DeleteTeamAsync(teamNameToDelete);
+        return _mapper.Map<RoundDetailsDTO>(await _quizRepository.GetRoundDetailsAsync(roundnumber));
+    }
+
+    public async Task ResetGameAsync()
+    {
+        await _quizRepository.ResetGameAsync();
     }
 }

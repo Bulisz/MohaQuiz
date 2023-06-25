@@ -7,5 +7,6 @@ public interface IQuizService
     Task<TeamNameDTO> CreateTeamAsync(TeamNameDTO teamNameDTO);
     Task<TeamNameDTO?> IsTeamCreatedAsync(string teamName);
     Task<IEnumerable<string>> GetAllTeamNamesAsync();
-    Task DeleteTeamAsync(string teamName);
+    Task ResetGameAsync();
+    Task<RoundDetailsDTO> GetRoundDetailsAsync(int roundnumber);
 }

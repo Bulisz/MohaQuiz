@@ -10,6 +10,7 @@ public class GameProcessService : IGameProcessService
     private static int _actualRoundNumber;
     private static int _actualQuestionNumber;
     private static int[]? _gameProcessArray;
+    private static bool _isGameStarted;
 
     private static readonly int[] CURRENT_GAME_PROCESS = new int[] { 5, 5, 5, 5, 5, 5 };
     private readonly IHubContext<GameControlHub> _hubContext;
@@ -19,20 +20,10 @@ public class GameProcessService : IGameProcessService
         _hubContext = hubContext;
     }
 
-    public void NextRound()
+    public async Task NextRound()
     {
-        if (_actualRoundNumber == 0)
-        {
-            _gameProcessArray = CURRENT_GAME_PROCESS;
-            _actualRoundNumber++;
-            _actualQuestionNumber = 0;
-            //game begins
-        }
-        else
-        {
-            _actualRoundNumber++;
-            _actualQuestionNumber = 0;
-        }
+        _actualRoundNumber++;
+        _actualQuestionNumber = 0;
 
         if (_actualRoundNumber == _gameProcessArray!.Length)
         {
@@ -44,10 +35,10 @@ public class GameProcessService : IGameProcessService
             //game ends
         }
 
-        _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
+        await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
-    public void NextQuestion()
+    public async Task NextQuestion()
     {
         _actualQuestionNumber++;
 
@@ -61,11 +52,37 @@ public class GameProcessService : IGameProcessService
             //round ends
         }
 
-        _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
+        await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
-    private static GameProcessStateDTO GetActualGameProcess()
+    public async Task StartGame()
     {
-        return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber, QuestionNumber = _actualQuestionNumber };
+        _gameProcessArray = CURRENT_GAME_PROCESS;
+        _actualRoundNumber++;
+        _actualQuestionNumber = 0;
+        _isGameStarted = true;
+
+        //game begins
+        await _hubContext.Clients.All.SendAsync("StartGame", "StartGame");
+        await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
+    }
+
+    public bool IsGameStarted()
+    {
+        return _isGameStarted;
+    }
+
+    public async Task ResetGame()
+    {
+        _gameProcessArray = Array.Empty<int>();
+        _actualRoundNumber = 0;
+        _actualQuestionNumber = 0;
+        _isGameStarted = false;
+        await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
+    }
+
+    public static GameProcessStateDTO GetActualGameProcess()
+    {
+        return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber, QuestionNumber = _actualQuestionNumber, IsGameStarted = _isGameStarted };
     }
 }

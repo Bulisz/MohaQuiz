@@ -2,7 +2,7 @@
 
 namespace MohaQuiz.Backend.Models.DTOs;
 
-public class TeamNameDTO
+public record TeamNameDTO
 {
     [Required]
     public string TeamName { get; set; } = string.Empty;

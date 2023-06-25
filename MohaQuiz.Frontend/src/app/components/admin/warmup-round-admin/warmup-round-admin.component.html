@@ -1,1 +1,16 @@
-<p>warmup-round-admin works!</p>
+<div class="body">
+  <mat-card class="content">
+    <mat-card-header>{{roundDetails.roundNumber}}.forduló, {{roundDetails.roundName}}:</mat-card-header>
+      <p *ngFor="let question of roundDetails.questions; index as i">
+        {{question.questionNumber}}. - {{question.questionText}} / {{question.correctAnswers[0].correctAnswerText}} - {{question.fullScore}}p.
+        <br></p>
+    <div class="btn-container">
+      <button mat-raised-button color="primary" class="rnd-btn"
+          (click)="nextQuestion()" [disabled]="actualQuestion === roundDetails.questions.length  || isScoring">Köv kérdés</button>
+      <button mat-raised-button color="primary" class="rnd-btn"
+          (click)="scoring()" [disabled]="actualQuestion !== roundDetails.questions.length || isScoring">Pontozás</button>
+      <button mat-raised-button color="primary" class="rnd-btn"
+          (click)="nextRound()" [disabled]="actualQuestion !== roundDetails.questions.length || !isScoring">Köv forduló</button>
+    </div>
+  </mat-card>
+</div>

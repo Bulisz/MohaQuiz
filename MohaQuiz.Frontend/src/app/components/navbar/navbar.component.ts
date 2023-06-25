@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { MediaMatcher } from '@angular/cdk/layout';
 import { QuizService } from "src/app/services/quiz.service";
+import { GameProcessService } from "src/app/services/game-process.service";
 
 @Component({
   selector: 'app-navbar',
@@ -8,12 +9,12 @@ import { QuizService } from "src/app/services/quiz.service";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnDestroy,OnInit {
+  
   mobileQuery: MediaQueryList;
-
   private _mobileQueryListener: () => void;
   teamName: string|null = null
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private qs: QuizService) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private qs: QuizService, private gps: GameProcessService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -31,6 +32,6 @@ export class NavbarComponent implements OnDestroy,OnInit {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
-    this.qs.hc.stop()
+    this.gps.hc.stop()
   }
 }

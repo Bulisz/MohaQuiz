@@ -8,5 +8,6 @@ public interface IQuizRepository
     Task<Team> CreateTeamAsync(string teamNameToCreate);
     Task<Team?> IsTeamCreatedAsync(string teamName);
     Task<IEnumerable<Team>> GetAllTeamNamesAsync();
-    Task DeleteTeamAsync(string teamName);
+    Task ResetGameAsync();
+    Task<Round> GetRoundDetailsAsync(int roundnumber);
 }

@@ -1,7 +1,8 @@
 ﻿namespace MohaQuiz.Backend.Models.DTOs;
 
-public class GameProcessStateDTO
+public record GameProcessStateDTO
 {
-    public int RoundNumber;
-    public int QuestionNumber;
+    public int RoundNumber { get; set; }
+    public int QuestionNumber { get; set; }
+    public bool IsGameStarted { get; set; }
 }

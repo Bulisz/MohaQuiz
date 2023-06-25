@@ -2,7 +2,7 @@
 
 namespace MohaQuiz.Backend.Models;
 
-[Table("Round")]
+[Table("Rounds")]
 public class Round
 {
     public int Id { get; set; }

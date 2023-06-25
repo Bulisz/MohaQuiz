@@ -21,6 +21,13 @@ import { AnagramRoundComponent } from './components/game/anagram-round/anagram-r
 import { AbcdRoundComponent } from './components/game/abcd-round/abcd-round.component';
 import { NullableRoundComponent } from './components/game/nullable-round/nullable-round.component';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { AbcdRoundAdminComponent } from './components/admin/abcd-round-admin/abcd-round-admin.component';
+import { AnagramRoundAdminComponent } from './components/admin/anagram-round-admin/anagram-round-admin.component';
+import { ConnectionRoundAdminComponent } from './components/admin/connection-round-admin/connection-round-admin.component';
+import { WarmupRoundAdminComponent } from './components/admin/warmup-round-admin/warmup-round-admin.component';
+import { NullableRoundAdminComponent } from './components/admin/nullable-round-admin/nullable-round-admin.component';
+import { ThreeToOneRoundAdminComponent } from './components/admin/three-to-one-round-admin/three-to-one-round-admin.component';
+import { ScoreAdminComponent } from './components/admin/score-admin/score-admin.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +44,14 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
     ThreeToOneRoundComponent,
     AnagramRoundComponent,
     AbcdRoundComponent,
-    NullableRoundComponent
+    NullableRoundComponent,
+    AbcdRoundAdminComponent,
+    AnagramRoundAdminComponent,
+    ConnectionRoundAdminComponent,
+    WarmupRoundAdminComponent,
+    NullableRoundAdminComponent,
+    ThreeToOneRoundAdminComponent,
+    ScoreAdminComponent
   ],
   imports: [
     BrowserModule,

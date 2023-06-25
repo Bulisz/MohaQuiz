@@ -5,6 +5,7 @@ namespace MohaQuiz.Backend.DataBase;
 
 public class AppDbContext : DbContext
 {
+    public DbSet<RoundType> RoundTypes { get; set; }
     public DbSet<Round> Rounds { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<CorrectAnswer> CorrectAnswers { get; set; }

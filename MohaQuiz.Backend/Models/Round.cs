@@ -8,6 +8,6 @@ public class Round
     public int Id { get; set; }
     public int RoundNumber { get; set; }
     public string RoundName { get; set; } = string.Empty;
-    public RoundType RoundType { get; set; }
-    public ICollection<Question> Questions { get; set; }
+    public RoundType RoundType { get; set; } = null!;
+    public ICollection<Question> Questions { get; set; } = null!;
 }

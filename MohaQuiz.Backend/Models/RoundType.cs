@@ -7,5 +7,5 @@ public class RoundType
 {
     public int Id { get; set; }
     public string RoundTypeName { get; set; } = string.Empty;
-    public ICollection<Round> Rounds { get; set; }
+    public ICollection<Round> Rounds { get; set; } = null!;
 }

@@ -19,7 +19,15 @@ export class GameProcessService {
   }
 
   async startGame() {
-    firstValueFrom(this.http.get(`${this.BASE_URL}startgame`))
+    await firstValueFrom(this.http.get(`${this.BASE_URL}startgame`))
+  }
+
+  async nextQuestion() {
+    await firstValueFrom(this.http.get(`${this.BASE_URL}nextquestion`))
+  }
+
+  async nextRound() {
+    await firstValueFrom(this.http.get(`${this.BASE_URL}nextround`))
   }
 
   async getActualGameProcess() {
@@ -28,7 +36,7 @@ export class GameProcessService {
   }
 
   async resetGame() {
-    firstValueFrom(this.http.get(`${this.BASE_URL}resetgame`))
+    await firstValueFrom(this.http.get(`${this.BASE_URL}resetgame`))
   }
 
   listenForStartGameMessage() {

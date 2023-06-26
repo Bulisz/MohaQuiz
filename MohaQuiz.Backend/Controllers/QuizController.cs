@@ -51,6 +51,42 @@ public class QuizController : ControllerBase
         return Ok(roundDetailsDTO);
     }
 
+    [HttpPost(nameof(SendAnswer))]
+    public async Task<ActionResult> SendAnswer(TeamAnswerDTO answerDTO)
+    {
+        await _quizService.SendAnswerAsync(answerDTO);
+        return Ok();
+    }
+
+    [HttpGet("getroundanswersofteam/{teamName}")]
+    public async Task<ActionResult<RoundAnswersOfTeamDTO>> GetRoundAnswersOfTeam(RoundAndTeamDTO roundAndTeam)
+    {
+        RoundAnswersOfTeamDTO summary = await _quizService.GetRoundAnswersOfTeamAsync(roundAndTeam);
+        return Ok(summary);
+    }
+
+
+    [HttpPost(nameof(ScoringOfAQuestion))]
+    public async Task<ActionResult> ScoringOfAQuestion(ScoringDTO scoringDTO)
+    {
+        await _quizService.ScoringOfAQuestionAsync(scoringDTO);
+        return Ok();
+    }
+
+    [HttpGet("getsummaryofteam/{teamName}")]
+    public async Task<ActionResult<TeamScoreSummaryDTO>> GetSummaryOfTeam(string teamName)
+    {
+        TeamScoreSummaryDTO summary = await _quizService.GetSummaryOfTeamAsync(teamName);
+        return Ok(summary);
+    }
+
+    [HttpGet("getrandomteam/{myTeamName}")]
+    public ActionResult<TeamNameDTO> GetRandomTeam(string myTeamName)
+    {
+        TeamNameDTO randomTeam = _quizService.GetRandomTeam(myTeamName);
+        return Ok(randomTeam);
+    }
+
     [HttpGet(nameof(ResetGame))]
     public async Task<ActionResult> ResetGame()
     {

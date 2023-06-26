@@ -9,4 +9,9 @@ public interface IQuizService
     Task<IEnumerable<string>> GetAllTeamNamesAsync();
     Task ResetGameAsync();
     Task<RoundDetailsDTO> GetRoundDetailsAsync(int roundnumber);
+    Task SendAnswerAsync(TeamAnswerDTO answerDTO);
+    Task<TeamScoreSummaryDTO> GetSummaryOfTeamAsync(string teamName);
+    Task<RoundAnswersOfTeamDTO> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam);
+    Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO);
+    TeamNameDTO GetRandomTeam(string myTeamName);
 }

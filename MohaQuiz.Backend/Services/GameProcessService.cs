@@ -9,7 +9,6 @@ public class GameProcessService : IGameProcessService
 {
     private static int _actualRoundNumber;
     private static int _actualQuestionNumber;
-    private static int[]? _gameProcessArray;
     private static bool _isGameStarted;
 
     private static readonly int[] CURRENT_GAME_PROCESS = new int[] { 5, 5, 5, 5, 5, 5 };
@@ -25,16 +24,6 @@ public class GameProcessService : IGameProcessService
         _actualRoundNumber++;
         _actualQuestionNumber = 0;
 
-        if (_actualRoundNumber == _gameProcessArray!.Length)
-        {
-            //last round
-        }
-
-        if (_actualRoundNumber > _gameProcessArray!.Length)
-        {
-            //game ends
-        }
-
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
@@ -42,27 +31,16 @@ public class GameProcessService : IGameProcessService
     {
         _actualQuestionNumber++;
 
-        if (_gameProcessArray![_actualRoundNumber - 1] == _actualQuestionNumber)
-        {
-            //last question
-        }
-
-        if (_gameProcessArray![_actualRoundNumber - 1] > _actualQuestionNumber)
-        {
-            //round ends
-        }
-
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
     public async Task StartGame()
     {
         _gameProcessArray = CURRENT_GAME_PROCESS;
-        _actualRoundNumber++;
+        _actualRoundNumber = 1;
         _actualQuestionNumber = 0;
         _isGameStarted = true;
 
-        //game begins
         await _hubContext.Clients.All.SendAsync("StartGame", "StartGame");
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }

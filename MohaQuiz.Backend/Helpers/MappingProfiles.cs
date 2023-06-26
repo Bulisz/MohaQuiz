@@ -17,5 +17,9 @@ public class MappingProfiles : Profile
         CreateMap<RoundType, RoundTypeDTO>();
         CreateMap<Question, QuestionDTO>();
         CreateMap<CorrectAnswer, CorrectAnswerDTO>();
+        CreateMap<TeamAnswer, TeamAnswerDTO>()
+            .ForMember(dest => dest.TeamName, op => op.MapFrom(src => src.Team.TeamName))
+            .ForMember(dest => dest.RoundNumber, op => op.MapFrom(src => src.Question.Round.RoundNumber))
+            .ForMember(dest => dest.QuestionNumber, op => op.MapFrom(src => src.Question.QuestionNumber));
     }
 }

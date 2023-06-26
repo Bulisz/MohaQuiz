@@ -15,6 +15,9 @@ public class QuizService : IQuizService
     private readonly IMapper _mapper;
     private readonly IHubContext<GameControlHub> _hubContext;
 
+    private static Dictionary<string, string> _randomTeamNames = new();
+    private static readonly Random _rand = new();
+
     public QuizService(IQuizRepository quizRepository, IMapper mapper, IHubContext<GameControlHub> hubContext)
     {
         _quizRepository = quizRepository;
@@ -56,8 +59,90 @@ public class QuizService : IQuizService
         return _mapper.Map<RoundDetailsDTO>(await _quizRepository.GetRoundDetailsAsync(roundnumber));
     }
 
+    public async Task SendAnswerAsync(TeamAnswerDTO answerDTO)
+    {
+        await _quizRepository.SendAnswerAsync(answerDTO);
+    }
+
+    public async Task<RoundAnswersOfTeamDTO> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam)
+    {
+        List<TeamAnswer> answers = await _quizRepository.GetRoundAnswersOfTeamAsync(roundAndTeam);
+        List<TeamAnswerDTO> answerList = _mapper.Map<List<TeamAnswerDTO>>(answers);
+
+        return new RoundAnswersOfTeamDTO() { TeamName = roundAndTeam.TeamName, RoundNumber = roundAndTeam.RoundNumber, Answers = answerList };
+    }
+
+    public async Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO)
+    {
+        await _quizRepository.ScoringOfAQuestionAsync(scoringDTO);
+    }
+
+    public async Task<TeamScoreSummaryDTO> GetSummaryOfTeamAsync(string teamName)
+    {
+        Team? team = await _quizRepository.GetTeamByNameAsync(teamName);
+        int roundAmount = await _quizRepository.GetRoundAmountAsync();
+
+        List<double> summary = new();
+        if (team is not null)
+        {
+            for (int i = 1; i <= roundAmount; i++)
+            {
+                summary.Add(team.TeamAnswers.Where(a => a.Question.Round.RoundNumber == i).Sum(a => a.GivenScore));
+            }
+        }
+
+        TeamScoreSummaryDTO summaryDTO = new () { TeamScoresPerRound = summary };
+        return summaryDTO;
+    }
+
+    public TeamNameDTO GetRandomTeam(string myTeamName)
+    {
+        return new TeamNameDTO() { TeamName = _randomTeamNames[myTeamName] };
+    }
+
     public async Task ResetGameAsync()
     {
         await _quizRepository.ResetGameAsync();
+    }
+
+    private async void RandomizeTeamNames()
+    {
+        _randomTeamNames = new Dictionary<string, string>();
+        List<string> originalteamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
+        List<string> shuffledTeamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
+
+        if (originalteamNames.Count == 1)
+        {
+            _randomTeamNames.Add(originalteamNames[0], originalteamNames[0]);
+        }
+        else if (originalteamNames.Count > 1)
+        {
+            bool success;
+            do
+            {
+                success = true;
+                Shuffle(shuffledTeamNames);
+                for (int i = 0; i < originalteamNames.Count; i++)
+                {
+                    if (originalteamNames[i] == shuffledTeamNames[i])
+                    {
+                        success = false;
+                        break;
+                    }
+                    _randomTeamNames.Add(originalteamNames[i], shuffledTeamNames[i]);
+                }
+            }
+            while (!success);
+        }
+    }
+
+    private static List<string> Shuffle(List<string> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int k = _rand.Next(i + 1);
+            (list[i], list[k]) = (list[k], list[i]);
+        }
+        return list;
     }
 }

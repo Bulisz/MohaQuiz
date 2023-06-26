@@ -6,8 +6,8 @@ namespace MohaQuiz.Backend.Models;
 public class TeamAnswer
 {
     public int Id { get; set; }
-    public string? TeamAnswerText { get; set; }
-    public double? GivenScore { get; set; }
-    public Question Question { get; set; }
-    public Team Team { get; set; }
+    public string TeamAnswerText { get; set; } = string.Empty;
+    public double GivenScore { get; set; }
+    public Question Question { get; set; } = null!;
+    public Team Team { get; set; } = null!;
 }

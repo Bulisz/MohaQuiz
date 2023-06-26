@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     width: 95%;
+    padding: 1rem;
 }
 
 .content mat-card-header {
@@ -20,7 +21,6 @@
 
 .btn-container {
     width: 95%;
-    padding: 0.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -29,4 +29,12 @@
 
 .rnd-btn {
     font-size: 0.7rem;
+}
+
+p {
+    font-size: 0.8rem;
+}
+
+.bold {
+    font-weight: bold;
 }

@@ -10,4 +10,9 @@ public interface IQuizRepository
     Task<IEnumerable<Team>> GetAllTeamNamesAsync();
     Task ResetGameAsync();
     Task<Round> GetRoundDetailsAsync(int roundnumber);
+    Task SendAnswerAsync(TeamAnswerDTO answerDTO);
+    Task<Team?> GetTeamByNameAsync(string teamName);
+    Task<int> GetRoundAmountAsync();
+    Task<List<TeamAnswer>> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam);
+    Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO);
 }

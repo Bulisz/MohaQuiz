@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { GameProcessStateModel } from 'src/app/models/game-process-state-model';
 import { RoundDetailsModel } from 'src/app/models/round-details-model';
 
 @Component({
@@ -9,17 +10,17 @@ import { RoundDetailsModel } from 'src/app/models/round-details-model';
 export class WarmupRoundAdminComponent{
 
   @Input() roundDetails!: RoundDetailsModel
-  @Input() questionNumber!: number
+  @Input() gameProcessState!: GameProcessStateModel
   @Output() nextQuestionToParent = new EventEmitter();
   @Output() nextRoundToParent = new EventEmitter();
-  isScoring = false
+  @Output() scoringToParent = new EventEmitter();
  
   nextQuestion(){
     this.nextQuestionToParent.emit()
   }
 
   scoring(){
-    this.isScoring=true
+    this.scoringToParent.emit()
   }
 
   nextRound(){

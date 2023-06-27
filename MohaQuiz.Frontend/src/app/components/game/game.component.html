@@ -1,1 +1,16 @@
-<p>game works!</p>
+<div class="body">
+    <mat-card class="content">
+      <mat-card-header *ngIf="gameProcessState.isGameStarted">Játék elindult</mat-card-header>
+      <mat-card-header *ngIf="!gameProcessState.isGameStarted">Játék még nem indult el</mat-card-header>
+    </mat-card>
+  </div>
+
+<app-warmup-round
+*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp' && !gameProcessState.isScoring"
+[roundDetails]="roundDetails"
+[gameProcessState]="gameProcessState"
+(sendAnswerToParent)="sendAnswer($event)"></app-warmup-round>
+
+<app-score
+*ngIf="gameProcessState.isScoring"
+[roundDetails]="roundDetails"></app-score>

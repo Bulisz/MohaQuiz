@@ -51,6 +51,14 @@ public class GameProcessController : ControllerBase
         return Ok(actualGameProcess);
     }
 
+
+    [HttpGet(nameof(StartScoring))]
+    public async Task<IActionResult> StartScoring()
+    {
+        await _gameProcessService.StartScoring();
+        return Ok();
+    }
+
     [HttpGet(nameof(ResetGame))]
     public ActionResult ResetGame()
     {

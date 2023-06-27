@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.Models.DTOs;
+using MohaQuiz.Backend.Services;
 
 namespace MohaQuiz.Backend.Hubs;
 
 public class GameControlHub : Hub
 {
-    public async Task SendTeamNamesToAdminAsync(IEnumerable<string> teamNames)
+    public async Task SendRoundDetailsAsync(IQuizService quizService)
     {
-        await Clients.All.SendAsync("GetTeamNames", teamNames);
-    }
-
-    public async Task SendGameProcessStateAsync(GameProcessStateDTO actualGameProcess)
-    {
-        await Clients.All.SendAsync("GetGameProcessState", actualGameProcess);
+        int actualRoundNumber = GameProcessService.GetActualGameProcess().RoundNumber;
+        RoundDetailsDTO roundDetailsDTO = await quizService.GetRoundDetailsAsync(actualRoundNumber);
+        await Clients.All.SendAsync("GetRoundDetails", roundDetailsDTO);
     }
 }

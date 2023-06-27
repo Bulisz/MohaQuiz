@@ -58,7 +58,7 @@ public class QuizController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("getroundanswersofteam/{teamName}")]
+    [HttpPost(nameof(GetRoundAnswersOfTeam))]
     public async Task<ActionResult<RoundAnswersOfTeamDTO>> GetRoundAnswersOfTeam(RoundAndTeamDTO roundAndTeam)
     {
         RoundAnswersOfTeamDTO summary = await _quizService.GetRoundAnswersOfTeamAsync(roundAndTeam);
@@ -85,6 +85,13 @@ public class QuizController : ControllerBase
     {
         TeamNameDTO randomTeam = _quizService.GetRandomTeam(myTeamName);
         return Ok(randomTeam);
+    }
+
+    [HttpGet(nameof(RandomizeTeamNames))]
+    public async Task<ActionResult> RandomizeTeamNames()
+    {
+        await _quizService.RandomizeTeamNamesAsync();
+        return Ok();
     }
 
     [HttpGet(nameof(ResetGame))]

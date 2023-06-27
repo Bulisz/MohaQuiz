@@ -66,6 +66,7 @@ public class QuizService : IQuizService
 
     public async Task<RoundAnswersOfTeamDTO> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam)
     {
+        roundAndTeam.TeamName = _randomTeamNames[roundAndTeam.TeamName];
         List<TeamAnswer> answers = await _quizRepository.GetRoundAnswersOfTeamAsync(roundAndTeam);
         List<TeamAnswerDTO> answerList = _mapper.Map<List<TeamAnswerDTO>>(answers);
 
@@ -105,7 +106,7 @@ public class QuizService : IQuizService
         await _quizRepository.ResetGameAsync();
     }
 
-    private async void RandomizeTeamNames()
+    public async Task RandomizeTeamNamesAsync()
     {
         _randomTeamNames = new Dictionary<string, string>();
         List<string> originalteamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();

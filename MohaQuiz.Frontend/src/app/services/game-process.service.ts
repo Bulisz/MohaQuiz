@@ -12,18 +12,22 @@ import { GameProcessStateModel } from '../models/game-process-state-model';
 export class GameProcessService {
 
   BASE_URL = environment.apiUrl + 'gameprocess/'
-  gameProcessState = new BehaviorSubject<GameProcessStateModel>({ roundNumber: 0, questionNumber: 0, isGameStarted: false })
+  gameProcessState = new BehaviorSubject<GameProcessStateModel>({ roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false })
 
   constructor(private http: HttpClient, public hc: HubConnection, private router: Router) {
     this.hc.start()
   }
 
-  async startGame() {
-    await firstValueFrom(this.http.get(`${this.BASE_URL}startgame`))
+  async startGame(): Promise<any> {
+    return await firstValueFrom(this.http.get(`${this.BASE_URL}startgame`))
   }
 
   async nextQuestion() {
     await firstValueFrom(this.http.get(`${this.BASE_URL}nextquestion`))
+  }
+
+  async startScoring() {
+    await firstValueFrom(this.http.get(`${this.BASE_URL}Startscoring`))
   }
 
   async nextRound() {
@@ -47,9 +51,17 @@ export class GameProcessService {
     })
   }
 
+  stopListenForStartGameMessage() {
+    this.hc.off('StartGame')
+  }
+
   listenForGameProcess() {
     this.hc.on('GetGameProcessState', gp => {
       this.gameProcessState.next(gp)
     })
+  }
+
+  stopListenForGameProcess() {
+    this.hc.off('GetGameProcessState')
   }
 }

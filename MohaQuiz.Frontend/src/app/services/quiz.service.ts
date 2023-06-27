@@ -5,6 +5,10 @@ import { TeamNameModel } from '../models/team-name-model';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { GameProcessService } from './game-process.service';
 import { RoundDetailsModel } from '../models/round-details-model';
+import { TeamAnswerModel } from '../models/team-answer-model';
+import { RoundAndTeamModel } from '../models/round-and-team-model';
+import { RoundAnswersOfTeamModel } from '../models/round-answers-of-team-model';
+import { ScoringModel } from '../models/scoring-model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +47,24 @@ export class QuizService {
     return await firstValueFrom(this.http.get<Array<string>>(`${this.BASE_URL}getallteamnames`))
   }
 
-  async GetRoundDetails(roundNumber: number): Promise<RoundDetailsModel> {
+  async getRoundDetails(roundNumber: number): Promise<RoundDetailsModel> {
     return await firstValueFrom(this.http.get<RoundDetailsModel>(`${this.BASE_URL}getrounddetails/${roundNumber}`))
+  }
+
+  async sendAnswer(teamAnswer: TeamAnswerModel) {
+    await firstValueFrom(this.http.post((`${this.BASE_URL}sendanswer`),teamAnswer))
+  }
+
+  async getRoundAnswersOfTeam(roundAndTeam: RoundAndTeamModel): Promise<RoundAnswersOfTeamModel> {
+    return await firstValueFrom(this.http.post<RoundAnswersOfTeamModel>(`${this.BASE_URL}getroundanswersofteam`,roundAndTeam))
+  }
+
+  async scoringOfAQuestion(score: ScoringModel) {
+    await firstValueFrom(this.http.post((`${this.BASE_URL}scoringofaquestion`),score))
+  }
+
+  async randomizeTeamNames() {
+    await firstValueFrom(this.http.get(`${this.BASE_URL}randomizeteamnames`))
   }
 
   async resetGame() {

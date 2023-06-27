@@ -1,0 +1,24 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+}
+
+.content mat-card-header {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.game-btn {
+    margin-bottom: 1rem;
+    width: 120px;
+}

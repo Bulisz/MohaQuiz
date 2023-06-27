@@ -13,19 +13,19 @@ import { QuizService } from 'src/app/services/quiz.service';
 export class AdminComponent implements OnInit,OnDestroy {
 
   teamNames: Array<string> = []
-  gameProcessState: GameProcessStateModel = { roundNumber: 0, questionNumber: 0, isGameStarted: false }
+  gameProcessState: GameProcessStateModel = { roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false }
   roundDetails!: RoundDetailsModel
 
   constructor(private _snackBar: MatSnackBar, private qs: QuizService, private gps: GameProcessService) {
-    this.gps.hc.on('GetTeamNames', tnl => {
-      this.teamNames = tnl
-      this.popupTeamNames(tnl)
+    this.gps.hc.on('GetTeamNames', tn => {
+      this.teamNames = tn
+      this.popupTeamNames(tn)
     })
   }
 
   async ngOnInit() {
     await this.qs.getAllTeamNames()
-      .then(tnl => this.teamNames = tnl)
+      .then(tn => this.teamNames = tn)
 
     this.gps.gameProcessState.subscribe({
       next: gp => this.gameProcessState = gp
@@ -35,36 +35,44 @@ export class AdminComponent implements OnInit,OnDestroy {
 
     this.gps.listenForGameProcess()
 
-    await this.refreshRound()
+    await this.refreshRound(this.gameProcessState.roundNumber)
   }
 
   async startGame() {
     this.gps.hc.off('GetTeamNames')
     await this.gps.startGame()
-    await this.refreshRound()
+    await this.qs.randomizeTeamNames()
+    await this.refreshRound(1)
   }
 
   async nextQuestion(){
     await this.gps.nextQuestion()
   }
 
+  async scoring(){
+    await this.gps.startScoring()
+  }
+
   async nextRound(){
     await this.gps.nextRound()
-    await this.refreshRound()
+    this.gps.hc.invoke('SendRoundDetailsAsync')
+    await this.qs.randomizeTeamNames()
+    await this.refreshRound(this.gameProcessState.roundNumber)
   }
 
   async resetGame() {
     await this.gps.resetGame()
     await this.qs.resetGame()
-    window.location.reload();
+    this.gps.hc.invoke('SendRoundDetailsAsync')
+    window.location.reload()
   }
 
-  async refreshRound(){
-    this.roundDetails = await this.qs.GetRoundDetails(this.gameProcessState.roundNumber)
+  async refreshRound(roundNumber: number){
+    this.roundDetails = await this.qs.getRoundDetails(roundNumber)
   }
 
-  popupTeamNames(teamNameList: Array<string>) {
-    let message = teamNameList.join('\n ')
+  popupTeamNames(teamNames: Array<string>) {
+    let message = teamNames.join('\n ')
 
     this._snackBar.open(message, undefined, {
       duration: 5000,
@@ -75,6 +83,7 @@ export class AdminComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gps.hc.off('GetGameProcessState')
+    this.gps.stopListenForGameProcess()
+    this.gps.hc.off('GetTeamNames')
   }
 }

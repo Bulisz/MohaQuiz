@@ -9,8 +9,11 @@
   <app-warmup-round-admin
     *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp'"
     [roundDetails]="roundDetails"
-    [questionNumber]="gameProcessState.questionNumber"
+    [gameProcessState]="gameProcessState"
     (nextQuestionToParent)="nextQuestion()"
+    (scoringToParent)="scoring()"
     (nextRoundToParent)="nextRound()"></app-warmup-round-admin>
+
+  <app-score-admin *ngIf="gameProcessState.isScoring"></app-score-admin>
 
   <button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>

@@ -1,1 +1,9 @@
-<p>score-admin works!</p>
+<div class="body">
+    <mat-card class="content">
+        <mat-card-header>Pontozás állása</mat-card-header>
+        <p *ngFor="let team of readyTeams; index as i">
+            {{team}} kész.
+            <br>
+        </p>
+    </mat-card>
+</div>

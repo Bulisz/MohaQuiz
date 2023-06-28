@@ -3,9 +3,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.admin-snackbar{
+.teamname-snackbar{
     white-space: pre-wrap;
     width: 200px !important;
+}
+
+.answer-snackbar{
+    white-space: pre-wrap;
+    width: 400px !important;
 }
 
 .mat-mdc-snack-bar-handset, .mat-mdc-snack-bar-container, .mat-mdc-snack-bar-label{

@@ -1,0 +1,60 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    padding: 0.8rem;
+}
+
+.content mat-card-header {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.rnd-btn {
+    font-size: 0.8rem;
+    margin-left: 1rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+mat-form-field {
+    height: 3.7rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.input-container {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+}
+.question-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.question {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

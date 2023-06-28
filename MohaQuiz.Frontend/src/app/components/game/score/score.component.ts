@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RoundAndTeamModel } from 'src/app/models/round-and-team-model';
 import { RoundAnswersOfTeamModel } from 'src/app/models/round-answers-of-team-model';
 import { RoundDetailsModel } from 'src/app/models/round-details-model';
 import { ScoringModel } from 'src/app/models/scoring-model';
+import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
@@ -10,23 +11,13 @@ import { QuizService } from 'src/app/services/quiz.service';
   templateUrl: './score.component.html',
   styleUrls: ['./score.component.scss']
 })
-export class ScoreComponent implements OnInit {
+export class ScoreComponent{
 
   @Input() roundDetails!: RoundDetailsModel
   roundAnswersOfTeam!: RoundAnswersOfTeamModel
-  isFinished = false
+  @Output() scoringIsFinished = new EventEmitter()
 
-  constructor(private qs: QuizService) { }
-
-  async ngOnInit() {
-    if (this.roundDetails) {
-      let roundAndTeam: RoundAndTeamModel = {
-        roundNumber: this.roundDetails.roundNumber,
-        teamName: localStorage.getItem('teamName') as string
-      }
-      this.roundAnswersOfTeam = await this.qs.getRoundAnswersOfTeam(roundAndTeam)
-    }
-  }
+  constructor(private qs: QuizService, private gps: GameProcessService) { }
 
   async ngOnChanges() {
     if (this.roundDetails) {
@@ -43,20 +34,38 @@ export class ScoreComponent implements OnInit {
   }
 
   getAnswerOfQuestionNumber(questionNumber: number): string {
-    return this.roundAnswersOfTeam.answers.filter(a => a.questionNumber === questionNumber)[0].teamAnswerText
+    let answer = this.roundAnswersOfTeam.answers.filter(a => a.questionNumber === questionNumber)[0]
+    if(answer){
+      return answer.teamAnswerText
+    }
+    else return ''
   }
 
   async sendScores(){
     let score: ScoringModel
-    for(let i = 0; i < this.roundAnswersOfTeam.answers.length; i++) {
-      score = {
-        teamName: this.roundAnswersOfTeam.teamName,
-        roundNumber: this.roundAnswersOfTeam.roundNumber,
-        questionNumber: i + 1,
-        score: Number((document.getElementById(`score${i}`) as HTMLSpanElement).innerHTML)
+    if(this.roundDetails.questions.length > 5){
+      for(let i = 1; i < this.roundAnswersOfTeam.answers.length; i++) {
+        score = {
+          teamName: this.roundAnswersOfTeam.teamName,
+          roundNumber: this.roundAnswersOfTeam.roundNumber,
+          questionNumber: i,
+          score: Number((document.getElementById(`score${i}`) as HTMLSpanElement).innerHTML)
+        }
+        await this.qs.scoringOfAQuestion(score)
       }
-      await this.qs.scoringOfAQuestion(score)
+    } else {
+      for(let i = 0; i < this.roundAnswersOfTeam.answers.length; i++) {
+        score = {
+          teamName: this.roundAnswersOfTeam.teamName,
+          roundNumber: this.roundAnswersOfTeam.roundNumber,
+          questionNumber: i + 1,
+          score: Number((document.getElementById(`score${i}`) as HTMLSpanElement).innerHTML)
+        }
+        await this.qs.scoringOfAQuestion(score)
+      }
     }
-    this.isFinished = true
+    
+    this.gps.hc.invoke('ScoringReadyAsync',localStorage.getItem('teamName') as string)
+    this.scoringIsFinished.emit()
   }
 }

@@ -69,13 +69,16 @@ public class QuizRepository : IQuizRepository
                                     .Include(a => a.Question)
                                     .ThenInclude(q => q.Round)
                                     .Include(a => a.Team)
-                                    .AnyAsync(a => a.Question.Round.RoundNumber == answerDTO.RoundNumber && a.Question.QuestionNumber == answerDTO.QuestionNumber && a.Team.TeamName == answerDTO.TeamName);
+                                    .AnyAsync(a => a.Question.Round.RoundNumber == answerDTO.RoundNumber &&
+                                                   a.Question.QuestionNumber == answerDTO.QuestionNumber &&
+                                                   a.Team.TeamName == answerDTO.TeamName);
 
         if (!aswerExists)
         {
             Question question = (await _context.Questions
                                     .Include(q => q.Round)
-                                    .FirstOrDefaultAsync(q => q.Round.RoundNumber == answerDTO.RoundNumber && q.QuestionNumber == answerDTO.QuestionNumber))!;
+                                    .FirstOrDefaultAsync(q => q.Round.RoundNumber == answerDTO.RoundNumber &&
+                                                              q.QuestionNumber == answerDTO.QuestionNumber))!;
 
             Team team = (await _context.Teams.FirstOrDefaultAsync(t => t.TeamName == answerDTO.TeamName))!;
 
@@ -97,8 +100,10 @@ public class QuizRepository : IQuizRepository
                                         .Include(a => a.Question)
                                         .ThenInclude(q => q.Round)
                                         .Include(a => a.Team)
-                                        .Where(a => a.Team.TeamName == roundAndTeam.TeamName && a.Question.Round.RoundNumber == roundAndTeam.RoundNumber)
-                                        .ToListAsync();                                        
+                                        .Where(a => a.Team.TeamName == roundAndTeam.TeamName &&
+                                                    a.Question.Round.RoundNumber == roundAndTeam.RoundNumber)
+                                        .ToListAsync();
+
         return answers;
     }
 
@@ -118,7 +123,8 @@ public class QuizRepository : IQuizRepository
 
     public async Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO)
     {
-        TeamAnswer? answer = await _context.TeamAnswers.Include(a => a.Question)
+        TeamAnswer? answer = await _context.TeamAnswers
+                                                .Include(a => a.Question)
                                                 .ThenInclude(q => q.Round)
                                                 .Include(a => a.Team)
                                                 .FirstOrDefaultAsync(a => a.Team.TeamName == scoringDTO.TeamName

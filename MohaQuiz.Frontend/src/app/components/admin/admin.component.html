@@ -10,10 +10,26 @@
     *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp'"
     [roundDetails]="roundDetails"
     [gameProcessState]="gameProcessState"
+    [scoringFinished]="scoringFinished"
     (nextQuestionToParent)="nextQuestion()"
     (scoringToParent)="scoring()"
     (nextRoundToParent)="nextRound()"></app-warmup-round-admin>
 
-  <app-score-admin *ngIf="gameProcessState.isScoring"></app-score-admin>
+  <app-connection-round-admin
+    *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection'"
+    [roundDetails]="roundDetails"
+    [gameProcessState]="gameProcessState"
+    [scoringFinished]="scoringFinished"
+    (nextQuestionToParent)="nextQuestion()"
+    (scoringToParent)="scoring()"
+    (nextRoundToParent)="nextRound()"></app-connection-round-admin>
+
+  <app-score-admin
+    *ngIf="gameProcessState.isScoring"
+    [teamNames]="teamNames"
+    (scoringFinished)="scoringFinishedM()"></app-score-admin>
+
+  <app-score-of-teams-admin
+    [teamNames]="teamNames"></app-score-of-teams-admin>
 
   <button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>

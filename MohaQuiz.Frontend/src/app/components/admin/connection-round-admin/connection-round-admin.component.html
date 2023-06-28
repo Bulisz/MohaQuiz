@@ -1,1 +1,22 @@
-<p>connection-round-admin works!</p>
+<div class="body">
+    <mat-card class="content">
+      <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
+        <p *ngFor="let question of roundDetails.questions; index as i" [ngClass]="{'bold': i === gameProcessState.questionNumber}">
+          {{question.questionNumber}}. - {{question.questionText}} / {{question.correctAnswers[0].correctAnswerText}} - {{question.fullScore}}p.
+        <br></p>
+      <div class="btn-container">
+        <button mat-raised-button color="primary" class="rnd-btn"
+            (click)="nextQuestion()" [disabled]="gameProcessState.questionNumber + 1 === roundDetails.questions.length">Köv kérdés</button>
+        <button mat-raised-button color="primary" class="rnd-btn"
+            (click)="scoring()" [disabled]="gameProcessState.questionNumber + 1 !== roundDetails.questions.length || gameProcessState.isScoring || scoringFinished">Pontozás</button>
+        <button mat-raised-button color="primary" class="rnd-btn"
+            (click)="nextRound()" [disabled]="gameProcessState.questionNumber + 1 !== roundDetails.questions.length || gameProcessState.isScoring || !scoringFinished">Köv forduló</button>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="extra" *ngFor="let answer of extraAnswers; index as i">
+        <p>{{answer.teamName}} csapat - {{answer.teamAnswerText}}</p>
+        <button mat-raised-button color="accent" class="extra-btn"
+            (click)="sendExtraAnswer(answer.teamName, answer.teamAnswerText)">Megad</button>
+      </div>
+    </mat-card>
+  </div>

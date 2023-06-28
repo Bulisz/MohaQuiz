@@ -9,6 +9,7 @@ import { TeamAnswerModel } from '../models/team-answer-model';
 import { RoundAndTeamModel } from '../models/round-and-team-model';
 import { RoundAnswersOfTeamModel } from '../models/round-answers-of-team-model';
 import { ScoringModel } from '../models/scoring-model';
+import { TeamScoreSummaryModel } from '../models/team-score-summary-model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,10 @@ export class QuizService {
 
   async randomizeTeamNames() {
     await firstValueFrom(this.http.get(`${this.BASE_URL}randomizeteamnames`))
+  }
+
+  async getSummaryOfTeam(teamName: string): Promise<TeamScoreSummaryModel> {
+    return await firstValueFrom(this.http.get<TeamScoreSummaryModel>(`${this.BASE_URL}getsummaryofteam/${teamName}`))
   }
 
   async resetGame() {

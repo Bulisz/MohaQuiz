@@ -13,4 +13,19 @@ public class GameControlHub : Hub
         RoundDetailsDTO roundDetailsDTO = await quizService.GetRoundDetailsAsync(actualRoundNumber);
         await Clients.All.SendAsync("GetRoundDetails", roundDetailsDTO);
     }
+
+    public async Task ScoringReadyAsync(string teamName)
+    {
+        await Clients.All.SendAsync("GetReadyTeamName", teamName);
+    }
+
+    public async Task SendExtraAnswer(TeamAnswerDTO answer)
+    {
+        await Clients.All.SendAsync("GetExtraAnswer", answer);
+    }
+
+    public async Task ConfirmExtraAnswer(string teamName)
+    {
+        await Clients.All.SendAsync("GetConfirmationOfExtraAnswer", teamName);
+    }
 }

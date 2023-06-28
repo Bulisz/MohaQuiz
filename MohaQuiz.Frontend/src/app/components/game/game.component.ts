@@ -14,6 +14,7 @@ export class GameComponent implements OnInit,OnDestroy {
 
   gameProcessState: GameProcessStateModel = {roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false}
   roundDetails!: RoundDetailsModel
+  scoringReady = false
 
   constructor(private qs: QuizService, private gps: GameProcessService){}
 
@@ -26,12 +27,19 @@ export class GameComponent implements OnInit,OnDestroy {
 
     this.gps.listenForGameProcess()
 
-    this.gps.hc.on('GetRoundDetails', rd => this.roundDetails = rd)
+    this.gps.hc.on('GetRoundDetails',rd => {
+      this.roundDetails = rd
+      this.scoringReady = false
+      })
     this.roundDetails = await this.qs.getRoundDetails(this.gameProcessState.roundNumber)
   }
 
   async sendAnswer(teamAnswer: TeamAnswerModel){
     await this.qs.sendAnswer(teamAnswer)
+  }
+
+  scoringIsFinished(){
+    this.scoringReady = true
   }
 
   ngOnDestroy(): void {

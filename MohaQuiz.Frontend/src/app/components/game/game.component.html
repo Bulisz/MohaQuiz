@@ -6,11 +6,20 @@
   </div>
 
 <app-warmup-round
-*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp' && !gameProcessState.isScoring"
+*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp' && !gameProcessState.isScoring && !scoringReady"
 [roundDetails]="roundDetails"
 [gameProcessState]="gameProcessState"
 (sendAnswerToParent)="sendAnswer($event)"></app-warmup-round>
 
+<app-connection-round
+*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection' && !gameProcessState.isScoring && !scoringReady"
+[roundDetails]="roundDetails"
+[gameProcessState]="gameProcessState"
+(sendAnswerToParent)="sendAnswer($event)"></app-connection-round>
+
 <app-score
-*ngIf="gameProcessState.isScoring"
-[roundDetails]="roundDetails"></app-score>
+*ngIf="gameProcessState.isScoring && !scoringReady"
+[roundDetails]="roundDetails"
+(scoringIsFinished)="scoringIsFinished()"></app-score>
+
+<app-score-of-team></app-score-of-team>

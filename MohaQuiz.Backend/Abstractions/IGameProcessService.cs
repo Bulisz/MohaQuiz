@@ -8,4 +8,5 @@ public interface IGameProcessService
     bool IsGameStarted();
     Task ResetGame();
     Task StartScoring();
+    Task StopScoring();
 }

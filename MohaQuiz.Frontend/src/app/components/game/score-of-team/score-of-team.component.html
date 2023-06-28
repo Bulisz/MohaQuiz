@@ -1,0 +1,11 @@
+<div class="body">
+    <mat-card class="content" *ngIf="scoreSummary">
+        <mat-card-header>A csapat pontjai</mat-card-header>
+        <p *ngFor="let score of scoreSummary.teamScoresPerRound; index as i">
+            {{i+1}}. forduló: {{score}} pont
+            <br>
+        </p>
+        <mat-divider></mat-divider>
+        <p class="sum">Összesen: {{total}} pont</p>
+    </mat-card>
+</div>

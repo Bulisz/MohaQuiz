@@ -27,7 +27,11 @@ export class GameProcessService {
   }
 
   async startScoring() {
-    await firstValueFrom(this.http.get(`${this.BASE_URL}Startscoring`))
+    await firstValueFrom(this.http.get(`${this.BASE_URL}startscoring`))
+  }
+
+  async stopScoring() {
+    await firstValueFrom(this.http.get(`${this.BASE_URL}stopscoring`))
   }
 
   async nextRound() {

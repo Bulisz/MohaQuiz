@@ -51,6 +51,15 @@ public class GameProcessService : IGameProcessService
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
+
+    public async Task StopScoring()
+    {
+        _isScoring = false;
+
+        await _hubContext.Clients.All.SendAsync("GetSummaryOfTeam");
+        await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
+    }
+
     public async Task NextRound()
     {
         _actualRoundNumber++;
@@ -75,4 +84,5 @@ public class GameProcessService : IGameProcessService
     {
         return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber, QuestionNumber = _actualQuestionNumber, IsGameStarted = _isGameStarted, IsScoring = _isScoring };
     }
+
 }

@@ -28,6 +28,8 @@ import { WarmupRoundAdminComponent } from './components/admin/warmup-round-admin
 import { NullableRoundAdminComponent } from './components/admin/nullable-round-admin/nullable-round-admin.component';
 import { ThreeToOneRoundAdminComponent } from './components/admin/three-to-one-round-admin/three-to-one-round-admin.component';
 import { ScoreAdminComponent } from './components/admin/score-admin/score-admin.component';
+import { ScoreOfTeamsAdminComponent } from './components/admin/score-of-teams-admin/score-of-teams-admin.component';
+import { ScoreOfTeamComponent } from './components/game/score-of-team/score-of-team.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { ScoreAdminComponent } from './components/admin/score-admin/score-admin.
     WarmupRoundAdminComponent,
     NullableRoundAdminComponent,
     ThreeToOneRoundAdminComponent,
-    ScoreAdminComponent
+    ScoreAdminComponent,
+    ScoreOfTeamsAdminComponent,
+    ScoreOfTeamComponent
   ],
   imports: [
     BrowserModule,

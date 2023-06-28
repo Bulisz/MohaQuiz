@@ -2,7 +2,7 @@
     <mat-card class="content">
         <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
         <div class="question" *ngFor="let question of roundDetails.questions; index as i">
-            <div class="question-content" *ngIf="gameProcessState.questionNumber >= i + 1">
+            <div class="question-content" *ngIf="gameProcessState.questionNumber > i">
                 <p [ngClass]="{'bold': i + 1 === gameProcessState.questionNumber}">
                     {{question.questionNumber}}. - {{question.questionText}} - {{question.fullScore}}p.
                 </p>

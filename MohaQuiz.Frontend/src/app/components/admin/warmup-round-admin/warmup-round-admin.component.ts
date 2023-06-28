@@ -11,6 +11,7 @@ export class WarmupRoundAdminComponent{
 
   @Input() roundDetails!: RoundDetailsModel
   @Input() gameProcessState!: GameProcessStateModel
+  @Input() scoringFinished = false
   @Output() nextQuestionToParent = new EventEmitter();
   @Output() nextRoundToParent = new EventEmitter();
   @Output() scoringToParent = new EventEmitter();

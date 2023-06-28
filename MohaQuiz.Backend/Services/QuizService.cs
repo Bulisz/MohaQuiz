@@ -62,6 +62,10 @@ public class QuizService : IQuizService
     public async Task SendAnswerAsync(TeamAnswerDTO answerDTO)
     {
         await _quizRepository.SendAnswerAsync(answerDTO);
+        if(answerDTO.TeamAnswerText.Length > 0)
+        {
+            await _hubContext.Clients.All.SendAsync("GetTeamAnswer", answerDTO);
+        }
     }
 
     public async Task<RoundAnswersOfTeamDTO> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam)

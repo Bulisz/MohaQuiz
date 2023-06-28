@@ -8,9 +8,9 @@
       <button mat-raised-button color="primary" class="rnd-btn"
           (click)="nextQuestion()" [disabled]="gameProcessState.questionNumber === roundDetails.questions.length">Köv kérdés</button>
       <button mat-raised-button color="primary" class="rnd-btn"
-          (click)="scoring()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring">Pontozás</button>
+          (click)="scoring()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring || scoringFinished">Pontozás</button>
       <button mat-raised-button color="primary" class="rnd-btn"
-          (click)="nextRound()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || !gameProcessState.isScoring">Köv forduló</button>
+          (click)="nextRound()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring || !scoringFinished">Köv forduló</button>
     </div>
   </mat-card>
 </div>

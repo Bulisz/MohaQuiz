@@ -1,25 +1,31 @@
 <div class="body">
-    <mat-card class="content">
-      <mat-card-header *ngIf="gameProcessState.isGameStarted">Játék elindult</mat-card-header>
-      <mat-card-header *ngIf="!gameProcessState.isGameStarted">Játék még nem indult el</mat-card-header>
-    </mat-card>
-  </div>
+  <mat-card class="content">
+    <mat-card-header *ngIf="gameProcessState.isGameStarted">Játék elindult</mat-card-header>
+    <mat-card-header *ngIf="!gameProcessState.isGameStarted">Játék még nem indult el</mat-card-header>
+  </mat-card>
+</div>
 
 <app-warmup-round
-*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp' && !gameProcessState.isScoring && !scoringReady"
-[roundDetails]="roundDetails"
-[gameProcessState]="gameProcessState"
-(sendAnswerToParent)="sendAnswer($event)"></app-warmup-round>
+  *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp' && !gameProcessState.isScoring && !scoringReady"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState"
+  (sendAnswerToParent)="sendAnswer($event)"></app-warmup-round>
 
 <app-connection-round
-*ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection' && !gameProcessState.isScoring && !scoringReady"
-[roundDetails]="roundDetails"
-[gameProcessState]="gameProcessState"
-(sendAnswerToParent)="sendAnswer($event)"></app-connection-round>
+  *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection' && !gameProcessState.isScoring && !scoringReady"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState"
+  (sendAnswerToParent)="sendAnswer($event)"></app-connection-round>
 
-<app-score
-*ngIf="gameProcessState.isScoring && !scoringReady"
-[roundDetails]="roundDetails"
-(scoringIsFinished)="scoringIsFinished()"></app-score>
+<app-three-to-one-round
+  *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'ThreeToOne' && !gameProcessState.isScoring && !scoringReady"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState"
+  (sendAnswerToParent)="sendAnswer($event)"></app-three-to-one-round>
+
+<app-anagram-round
+  *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Anagram' && !gameProcessState.isScoring && !scoringReady"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState"
+  (sendAnswerToParent)="sendAnswer($event)"></app-anagram-round>
+
+<app-score *ngIf="gameProcessState.isScoring && !scoringReady" [roundDetails]="roundDetails"
+  (scoringIsFinished)="scoringIsFinished()"></app-score>
 
 <app-score-of-team></app-score-of-team>

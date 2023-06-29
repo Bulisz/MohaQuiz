@@ -112,13 +112,12 @@ public class QuizService : IQuizService
 
     public async Task RandomizeTeamNamesAsync()
     {
-        _randomTeamNames = new Dictionary<string, string>();
         List<string> originalteamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
         List<string> shuffledTeamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
 
         if (originalteamNames.Count == 1)
         {
-            _randomTeamNames.Add(originalteamNames[0], originalteamNames[0]);
+            _randomTeamNames = new Dictionary<string, string>() { { originalteamNames[0], originalteamNames[0] } };
         }
         else if (originalteamNames.Count > 1)
         {
@@ -126,6 +125,7 @@ public class QuizService : IQuizService
             do
             {
                 success = true;
+                _randomTeamNames = new Dictionary<string, string>();
                 Shuffle(shuffledTeamNames);
                 for (int i = 0; i < originalteamNames.Count; i++)
                 {

@@ -9,7 +9,7 @@ public static class CorsRules
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:4200")));
+                .WithOrigins("http://localhost:4200", "http://peterthegreat-001-site1.gtempurl.com")));
 
         return services;
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { GameProcessStateModel } from 'src/app/models/game-process-state-model';
 import { RoundDetailsModel } from 'src/app/models/round-details-model';
 import { TeamAnswerModel } from 'src/app/models/team-answer-model';
@@ -9,7 +9,7 @@ import { GameProcessService } from 'src/app/services/game-process.service';
   templateUrl: './connection-round.component.html',
   styleUrls: ['./connection-round.component.scss']
 })
-export class ConnectionRoundComponent implements OnInit {
+export class ConnectionRoundComponent implements OnInit,OnDestroy {
 
   @Input() roundDetails!: RoundDetailsModel
   @Input() gameProcessState!: GameProcessStateModel

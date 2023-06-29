@@ -1,35 +1,34 @@
+<div class="body">
+  <mat-card class="content">
+    <mat-card-header>Game Start</mat-card-header>
+    <button mat-raised-button color="primary" class="start-btn" (click)="startGame()"
+      [disabled]="!teamNames.length || gameProcessState.isGameStarted">START</button>
+  </mat-card>
+</div>
 
-  <div class="body">
-    <mat-card class="content">
-      <mat-card-header>Game Start</mat-card-header>
-      <button mat-raised-button color="primary" class="start-btn" (click)="startGame()" [disabled]="!teamNames.length || gameProcessState.isGameStarted">START</button>
-    </mat-card>
-  </div>
+<app-warmup-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-warmup-round-admin>
 
-  <app-warmup-round-admin
-    *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'WarmUp'"
-    [roundDetails]="roundDetails"
-    [gameProcessState]="gameProcessState"
-    [scoringFinished]="scoringFinished"
-    (nextQuestionToParent)="nextQuestion()"
-    (scoringToParent)="scoring()"
-    (nextRoundToParent)="nextRound()"></app-warmup-round-admin>
+<app-connection-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-connection-round-admin>
 
-  <app-connection-round-admin
-    *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Connection'"
-    [roundDetails]="roundDetails"
-    [gameProcessState]="gameProcessState"
-    [scoringFinished]="scoringFinished"
-    (nextQuestionToParent)="nextQuestion()"
-    (scoringToParent)="scoring()"
-    (nextRoundToParent)="nextRound()"></app-connection-round-admin>
+<app-three-to-one-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'ThreeToOne'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-three-to-one-round-admin>
 
-  <app-score-admin
-    *ngIf="gameProcessState.isScoring"
-    [teamNames]="teamNames"
-    (scoringFinished)="scoringFinishedM()"></app-score-admin>
+<app-anagram-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Anagram'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-anagram-round-admin>
 
-  <app-score-of-teams-admin
-    [teamNames]="teamNames"></app-score-of-teams-admin>
+<app-score-admin *ngIf="gameProcessState.isScoring" [teamNames]="teamNames"
+  (scoringFinished)="scoringFinishedM()"></app-score-admin>
 
-  <button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>
+<app-score-of-teams-admin [teamNames]="teamNames"></app-score-of-teams-admin>
+
+<button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>

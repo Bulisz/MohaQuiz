@@ -13,7 +13,6 @@ import { TeamComponent } from './components/team/team.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { GameComponent } from './components/game/game.component';
 import { ScoreComponent } from './components/game/score/score.component';
-import { FinalComponent } from './components/final/final.component';
 import { WarmupRoundComponent } from './components/game/warmup-round/warmup-round.component';
 import { ConnectionRoundComponent } from './components/game/connection-round/connection-round.component';
 import { ThreeToOneRoundComponent } from './components/game/three-to-one-round/three-to-one-round.component';
@@ -42,7 +41,6 @@ import { GameSummaryComponent } from './components/game-summary/game-summary.com
     AdminComponent,
     GameComponent,
     ScoreComponent,
-    FinalComponent,
     WarmupRoundComponent,
     ConnectionRoundComponent,
     ThreeToOneRoundComponent,

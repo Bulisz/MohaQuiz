@@ -8,5 +8,5 @@ public class CorrectAnswer
     public int Id { get; set; }
     public string CorrectAnswerText { get; set; } = string.Empty;
     public bool IsCorrect { get; set; }
-    public Question Question { get; set; }
+    public Question Question { get; set; } = null!;
 }

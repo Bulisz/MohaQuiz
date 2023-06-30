@@ -4,6 +4,6 @@ public record RoundDetailsDTO
 {
     public int RoundNumber { get; set; }
     public string RoundName { get; set; } = string.Empty;
-    public RoundTypeDTO RoundType { get; set; }
-    public List<QuestionDTO> Questions { get; set; }
+    public RoundTypeDTO RoundType { get; set; } = null!;
+    public List<QuestionDTO> Questions { get; set; } = null!;
 }

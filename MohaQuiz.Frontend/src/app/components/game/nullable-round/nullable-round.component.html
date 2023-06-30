@@ -10,10 +10,14 @@
                     <mat-form-field>
                         <input matInput placeholder="Írd be a választ" id="{{'answer' + i}}" required>
                     </mat-form-field>
-                    <button mat-raised-button color="primary" class="rnd-btn"
-                        (click)="sendAnswer(i , question.questionNumber)" id="{{'btn' + i}}">Elküld</button>
                 </div>
             </div>
+        </div>
+        <div class="btn-container">
+            <button mat-raised-button color="primary" class="rnd-btn" [disabled]="gameProcessState.questionNumber !== 5"
+            (click)="sendAnswer('t')" id="try">Próba</button>
+            <button mat-raised-button color="primary" class="rnd-btn" disabled
+            (click)="sendAnswer('f')" id="fin">Végleges</button>
         </div>
     </mat-card>
 </div>

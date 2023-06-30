@@ -8,9 +8,17 @@
         <button mat-raised-button color="primary" class="rnd-btn"
             (click)="nextQuestion()" [disabled]="gameProcessState.questionNumber === roundDetails.questions.length">Köv kérdés</button>
         <button mat-raised-button color="primary" class="rnd-btn"
-            (click)="scoring()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring || scoringFinished">Pontozás</button>
-        <button mat-raised-button color="primary" class="rnd-btn"
-            (click)="nextRound()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring || !scoringFinished">Köv forduló</button>
+            (click)="nextRound()" [disabled]="gameProcessState.questionNumber !== roundDetails.questions.length || gameProcessState.isScoring">Vége</button>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="extra" *ngFor="let answersOfTeam of answersOfRound">
+        <p>{{answersOfTeam.teamName}} csapat</p>
+        <p *ngFor="let answer of answersOfTeam.answers">{{answer.questionNumber}} -- {{answer.teamAnswerText}}</p>
+        <button mat-raised-button color="accent" class="extra-btn"
+            (click)="bad(answersOfTeam.teamName)">Elvet</button>
+            <button mat-raised-button color="accent" class="extra-btn"
+            (click)="good(answersOfTeam.teamName)">Megad</button>
+       <mat-divider></mat-divider>
       </div>
     </mat-card>
   </div>

@@ -28,4 +28,14 @@ public class GameControlHub : Hub
     {
         await Clients.All.SendAsync("GetConfirmationOfExtraAnswer", teamName);
     }
+
+    public async Task NullableAnswers(RoundAnswersOfTeamDTO answers)
+    {
+        await Clients.All.SendAsync("GetNullableAnswers", answers);
+    }
+
+    public async Task SendNullableMessage(NullableMessageDTO message)
+    {
+        await Clients.All.SendAsync("GetNullableMessage", message);
+    }
 }

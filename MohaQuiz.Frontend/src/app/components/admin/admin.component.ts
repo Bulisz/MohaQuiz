@@ -47,9 +47,7 @@ export class AdminComponent implements OnInit,OnDestroy {
     this.gps.hc.invoke('SendRoundDetailsAsync')
     await this.refreshRound(1)
 
-    this.gps.hc.on('GetTeamAnswer', ta => {
-      this.popupTeamAnswers(ta)
-    })
+    this.gps.hc.on('GetTeamAnswer', ta => this.popupTeamAnswers(ta))
   }
 
   async nextQuestion(){

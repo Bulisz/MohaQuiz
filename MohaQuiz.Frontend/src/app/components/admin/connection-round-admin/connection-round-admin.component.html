@@ -1,7 +1,7 @@
 <div class="body">
     <mat-card class="content">
       <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
-        <p *ngFor="let question of roundDetails.questions; index as i" [ngClass]="{'bold': i === gameProcessState.questionNumber}">
+        <p *ngFor="let question of roundDetails.questions; index as i" [ngClass]="{'bold': i === gameProcessState.questionNumber, 'extra': i === 0}">
           {{question.questionNumber}}. - {{question.questionText}} / {{question.correctAnswers[0].correctAnswerText}} - 
           {{question.questionNumber === 0 ? (6 - gameProcessState.questionNumber) : question.fullScore}}p.
         <br></p>

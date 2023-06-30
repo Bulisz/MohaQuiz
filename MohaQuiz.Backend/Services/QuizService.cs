@@ -100,6 +100,11 @@ public class QuizService : IQuizService
         return summaryDTO;
     }
 
+    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync()
+    {
+        return await _quizRepository.GetSummaryOfGameAsync();
+    }
+
     public TeamNameDTO GetRandomTeam(string myTeamName)
     {
         return new TeamNameDTO() { TeamName = _randomTeamNames[myTeamName] };

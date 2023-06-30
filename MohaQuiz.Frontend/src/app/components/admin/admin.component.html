@@ -26,9 +26,21 @@
   (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
   (nextRoundToParent)="nextRound()"></app-anagram-round-admin>
 
+<app-abcd-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'ABCD'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-abcd-round-admin>
+
+<app-nullable-round-admin *ngIf="roundDetails && roundDetails.roundType.roundTypeName === 'Nullable'"
+  [roundDetails]="roundDetails" [gameProcessState]="gameProcessState" [scoringFinished]="scoringFinished"
+  (nextQuestionToParent)="nextQuestion()" (scoringToParent)="scoring()"
+  (nextRoundToParent)="nextRound()"></app-nullable-round-admin>
+
 <app-score-admin *ngIf="gameProcessState.isScoring" [teamNames]="teamNames"
   (scoringFinished)="scoringFinishedM()"></app-score-admin>
 
 <app-score-of-teams-admin [teamNames]="teamNames"></app-score-of-teams-admin>
+
+<app-game-summary></app-game-summary>
 
 <button mat-raised-button color="primary" class="reset-btn" (click)="resetGame()">RESET</button>

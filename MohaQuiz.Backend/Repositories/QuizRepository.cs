@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MohaQuiz.Backend.Abstractions;
 using MohaQuiz.Backend.DataBase;
 using MohaQuiz.Backend.Helpers;
@@ -51,15 +50,16 @@ public class QuizRepository : IQuizRepository
 
     public async Task<IEnumerable<Team>> GetAllTeamNamesAsync()
     {
-        return await _context.Teams.ToListAsync();
+        return await _context.Teams.OrderBy(t => t.Id).ToListAsync();
     }
 
     public async Task<Round> GetRoundDetailsAsync(int roundnumber)
     {
         Round round = (await _context.Rounds.Include(r => r.RoundType)
-                                           .Include(r => r.Questions)
+                                           .Include(r => r.Questions.OrderBy(q => q.QuestionNumber))
                                            .ThenInclude(q => q.CorrectAnswers)
                                            .FirstOrDefaultAsync(r => r.RoundNumber == roundnumber))!;
+
         return round;
     }
 
@@ -101,7 +101,9 @@ public class QuizRepository : IQuizRepository
                                         .ThenInclude(q => q.Round)
                                         .Include(a => a.Team)
                                         .Where(a => a.Team.TeamName == roundAndTeam.TeamName &&
-                                                    a.Question.Round.RoundNumber == roundAndTeam.RoundNumber)
+                                                    a.Question.Round.RoundNumber == roundAndTeam.RoundNumber &&
+                                                    a.Question.QuestionNumber > 0)
+                                        .OrderBy(a => a.Question.QuestionNumber)
                                         .ToListAsync();
 
         return answers;
@@ -137,6 +139,16 @@ public class QuizRepository : IQuizRepository
             _context.Update(answer);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync()
+    {
+        IEnumerable<Team> teams = await _context.Teams
+                                                    .Include(t => t.TeamAnswers)
+                                                    .OrderByDescending(t => t.TeamAnswers.Sum(a => a.GivenScore))
+                                                    .ToListAsync();
+
+        return teams.Select(t => new GameSummaryDTO { TeamName = t.TeamName, TeamScore = t.TeamAnswers.Sum(a => a.GivenScore) });
     }
 
     public async Task ResetGameAsync()

@@ -15,4 +15,5 @@ public interface IQuizRepository
     Task<int> GetRoundAmountAsync();
     Task<List<TeamAnswer>> GetRoundAnswersOfTeamAsync(RoundAndTeamDTO roundAndTeam);
     Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO);
+    Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync();
 }

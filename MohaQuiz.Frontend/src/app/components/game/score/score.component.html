@@ -2,7 +2,7 @@
     <mat-card class="content" *ngIf="roundDetails">
         <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
         <p *ngIf="roundAnswersOfTeam"><strong>{{roundAnswersOfTeam.teamName}}</strong> csapat</p>
-        <div class="question" *ngFor="let question of roundDetails.questions; index as i">
+        <div class="question" *ngFor="let question of roundDetails.questions">
             <mat-divider></mat-divider>
             <div class="question-content" *ngIf="roundAnswersOfTeam && question.questionNumber > 0">
                 <p>
@@ -12,15 +12,15 @@
                     Adott válasz: <strong style="color: brown;">{{getAnswerOfQuestionNumber(question.questionNumber)}}</strong>
                 </p>
                 <p>
-                    Adott pont: <strong><span  id="{{'score' + i}}">0</span></strong>
+                    Adott pont: <strong><span  id="{{'score' + question.questionNumber}}">0</span></strong>
                 </p>
                 <div class="input-container" *ngIf="getAnswerOfQuestionNumber(question.questionNumber).length > 0">
-                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnn' + i}}" disabled
-                        (click)="scoring(0, i, question.fullScore)">Nulla</button>
-                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnh' + i}}"
-                        (click)="scoring(0.5, i, question.fullScore)">Fél</button>
-                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnf' + i}}"
-                        (click)="scoring(1, i, question.fullScore)">Teljes</button>
+                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnn' + question.questionNumber}}" disabled
+                        (click)="scoring(0, question.questionNumber, question.fullScore)">Nulla</button>
+                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnh' + question.questionNumber}}"
+                        (click)="scoring(0.5, question.questionNumber, question.fullScore)">Fél</button>
+                    <button mat-raised-button color="primary" class="rnd-btn" id="{{'btnf' + question.questionNumber}}"
+                        (click)="scoring(1, question.questionNumber, question.fullScore)">Teljes</button>
                 </div>
             </div>
         </div>

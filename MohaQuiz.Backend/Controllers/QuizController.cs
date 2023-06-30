@@ -80,6 +80,13 @@ public class QuizController : ControllerBase
         return Ok(summary);
     }
 
+    [HttpGet(nameof(GetSummaryOfGame))]
+    public async Task<ActionResult<IEnumerable<GameSummaryDTO>>> GetSummaryOfGame()
+    {
+        IEnumerable<GameSummaryDTO> summary = await _quizService.GetSummaryOfGameAsync();
+        return Ok(summary);
+    }
+
     [HttpGet("getrandomteam/{myTeamName}")]
     public ActionResult<TeamNameDTO> GetRandomTeam(string myTeamName)
     {

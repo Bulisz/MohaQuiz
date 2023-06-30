@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
@@ -31,6 +31,7 @@ import { ScoreAdminComponent } from './components/admin/score-admin/score-admin.
 import { ScoreOfTeamsAdminComponent } from './components/admin/score-of-teams-admin/score-of-teams-admin.component';
 import { ScoreOfTeamComponent } from './components/game/score-of-team/score-of-team.component';
 import { environment } from 'src/environments/environment';
+import { GameSummaryComponent } from './components/game-summary/game-summary.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { environment } from 'src/environments/environment';
     ThreeToOneRoundAdminComponent,
     ScoreAdminComponent,
     ScoreOfTeamsAdminComponent,
-    ScoreOfTeamComponent
+    ScoreOfTeamComponent,
+    GameSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,8 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ],
   providers: [
     {

@@ -16,7 +16,10 @@ export class ScoreAdminComponent implements OnInit {
 
   ngOnInit() {
     this.gps.hc.on('GetReadyTeamName',tn => {
-      this.readyTeams.push(tn)
+      if(!this.readyTeams.includes(tn)){
+        this.readyTeams.push(tn)
+      }
+
       if(this.readyTeams.length === this.teamNames.length){
         this.scoringFinished.emit()
       }

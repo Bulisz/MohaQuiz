@@ -11,7 +11,7 @@ import { QuizService } from 'src/app/services/quiz.service';
   templateUrl: './score.component.html',
   styleUrls: ['./score.component.scss']
 })
-export class ScoreComponent{
+export class ScoreComponent {
 
   @Input() roundDetails!: RoundDetailsModel
   roundAnswersOfTeam!: RoundAnswersOfTeamModel
@@ -31,15 +31,15 @@ export class ScoreComponent{
 
   scoring(multiple: number, index: number, score: number) {
     (document.getElementById(`score${index}`) as HTMLSpanElement).innerHTML = (multiple * score).toString()
-    if(multiple === 0){
+    if (multiple === 0) {
       (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = true;
       (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = false;
       (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = false;
-    } else if(multiple === 0.5){
+    } else if (multiple === 0.5) {
       (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = false;
       (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = true;
       (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = false;
-    } else if(multiple === 1){
+    } else if (multiple === 1) {
       (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = false;
       (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = false;
       (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = true;
@@ -47,38 +47,32 @@ export class ScoreComponent{
   }
 
   getAnswerOfQuestionNumber(questionNumber: number): string {
-    let answer = this.roundAnswersOfTeam.answers.filter(a => a.questionNumber === questionNumber)[0]
-    if(answer){
+    let answer = this.roundAnswersOfTeam.answers.find(a => a.questionNumber === questionNumber)
+    if (answer) {
       return answer.teamAnswerText
     }
     else return ''
   }
 
-  async sendScores(){
-    let score: ScoringModel
-    if(this.roundDetails.questions.length > 5){
-      for(let i = 1; i < this.roundAnswersOfTeam.answers.length; i++) {
-        score = {
+  async sendScores() {
+    let score: number
+    let scoreModel: ScoringModel
+    let questionNumber: number
+    for (let i = 0; i < this.roundAnswersOfTeam.answers.length; i++) {
+      questionNumber = this.roundAnswersOfTeam.answers[i].questionNumber
+      score = Number((document.getElementById(`score${questionNumber}`) as HTMLSpanElement).innerHTML)
+      if(score > 0){
+        scoreModel = {
           teamName: this.roundAnswersOfTeam.teamName,
           roundNumber: this.roundAnswersOfTeam.roundNumber,
-          questionNumber: i,
-          score: Number((document.getElementById(`score${i}`) as HTMLSpanElement).innerHTML)
+          questionNumber: questionNumber,
+          score: Number((document.getElementById(`score${questionNumber}`) as HTMLSpanElement).innerHTML)
         }
-        await this.qs.scoringOfAQuestion(score)
-      }
-    } else {
-      for(let i = 0; i < this.roundAnswersOfTeam.answers.length; i++) {
-        score = {
-          teamName: this.roundAnswersOfTeam.teamName,
-          roundNumber: this.roundAnswersOfTeam.roundNumber,
-          questionNumber: i + 1,
-          score: Number((document.getElementById(`score${i}`) as HTMLSpanElement).innerHTML)
-        }
-        await this.qs.scoringOfAQuestion(score)
+        await this.qs.scoringOfAQuestion(scoreModel)
       }
     }
-    
-    this.gps.hc.invoke('ScoringReadyAsync',localStorage.getItem('teamName') as string)
+
+    this.gps.hc.invoke('ScoringReadyAsync', localStorage.getItem('teamName') as string)
     this.scoringIsFinished.emit()
   }
 }

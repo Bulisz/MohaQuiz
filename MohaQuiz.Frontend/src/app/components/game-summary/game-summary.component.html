@@ -1,0 +1,8 @@
+<div class="body">
+    <mat-card class="content">
+        <mat-card-header>A csapatok állása</mat-card-header>
+        <p *ngFor="let team of gameSummary; index as i">
+            {{i+1}}. helyezett: {{team.teamName}} csapat - {{team.teamScore}} pont
+        </p>
+    </mat-card>
+</div>

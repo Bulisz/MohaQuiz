@@ -1,1 +1,19 @@
-<p>abcd-round works!</p>
+<div class="body">
+    <mat-card class="content">
+        <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
+        <div class="question" *ngFor="let question of roundDetails.questions; index as i">
+            <div class="question-content" *ngIf="gameProcessState.questionNumber > i">
+                <p [ngClass]="{'bold': i + 1 === gameProcessState.questionNumber}">
+                    {{question.questionNumber}}. - {{question.questionText}} - {{question.fullScore}}p.
+                </p>
+                <div class="input-container">
+                    <mat-radio-group [(ngModel)]="answers[i]">
+                        <mat-radio-button *ngFor="let answer of question.correctAnswers" value = {{answer.correctAnswerText}}>{{answer.correctAnswerText}}</mat-radio-button>
+                      </mat-radio-group>
+                    <button mat-raised-button color="primary" class="rnd-btn"
+                        (click)="sendAnswer(i , question.questionNumber)" id="{{'btn' + i}}">Elküld</button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

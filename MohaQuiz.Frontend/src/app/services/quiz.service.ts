@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { TeamNameModel } from '../models/team-name-model';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { GameProcessService } from './game-process.service';

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HubConnection } from '@microsoft/signalr';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 import { GameProcessStateModel } from '../models/game-process-state-model';
 
 @Injectable({

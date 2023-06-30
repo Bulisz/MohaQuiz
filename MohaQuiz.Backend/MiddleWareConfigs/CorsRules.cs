@@ -8,8 +8,10 @@ public static class CorsRules
                 .AddDefaultPolicy(policyConfig => policyConfig
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins("http://localhost:4200", "http://peterthegreat-001-site1.gtempurl.com")));
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()));
+
+        //https://stackoverflow.com/questions/54823650/cors-policy-dont-want-to-work-with-signalr-and-asp-net-core
 
         return services;
     }

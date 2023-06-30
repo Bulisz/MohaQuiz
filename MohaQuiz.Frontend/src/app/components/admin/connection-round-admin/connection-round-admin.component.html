@@ -2,7 +2,8 @@
     <mat-card class="content">
       <mat-card-header>{{roundDetails.roundNumber}}.forduló: {{roundDetails.roundName}}</mat-card-header>
         <p *ngFor="let question of roundDetails.questions; index as i" [ngClass]="{'bold': i === gameProcessState.questionNumber}">
-          {{question.questionNumber}}. - {{question.questionText}} / {{question.correctAnswers[0].correctAnswerText}} - {{question.fullScore}}p.
+          {{question.questionNumber}}. - {{question.questionText}} / {{question.correctAnswers[0].correctAnswerText}} - 
+          {{question.questionNumber === 0 ? (6 - gameProcessState.questionNumber) : question.fullScore}}p.
         <br></p>
       <div class="btn-container">
         <button mat-raised-button color="primary" class="rnd-btn"

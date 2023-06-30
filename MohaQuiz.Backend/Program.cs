@@ -19,16 +19,16 @@ public class Program
         string connectionString = builder.Configuration.GetConnectionString("Default") ?? throw new InvalidOperationException("No connectionString");
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddCorsRules();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddSignalR();
 
         builder.Services.AddScoped<IGameProcessService,GameProcessService>();
         builder.Services.AddScoped<IQuizRepository,QuizRepository>();
         builder.Services.AddScoped<IQuizService,QuizService>();
 
-        builder.Services.AddCorsRules();
-        builder.Services.AddSignalR();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
 
         var app = builder.Build();
 
@@ -40,9 +40,10 @@ public class Program
         app.UseStaticFiles();
         app.UseCors();
 
+        app.UseAuthorization();
         app.MapControllers();
-        app.MapFallbackToFile("index.html");
 
+        app.MapFallbackToFile("index.html");
         app.MapHub<GameControlHub>("/gamecontrolhub");
 
         app.Run();

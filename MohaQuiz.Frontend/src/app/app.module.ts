@@ -30,6 +30,7 @@ import { ThreeToOneRoundAdminComponent } from './components/admin/three-to-one-r
 import { ScoreAdminComponent } from './components/admin/score-admin/score-admin.component';
 import { ScoreOfTeamsAdminComponent } from './components/admin/score-of-teams-admin/score-of-teams-admin.component';
 import { ScoreOfTeamComponent } from './components/game/score-of-team/score-of-team.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { ScoreOfTeamComponent } from './components/game/score-of-team/score-of-t
       provide: HubConnection,
       useFactory: () => {
         return new HubConnectionBuilder()
-          .withUrl('https://localhost:5001/gamecontrolhub')
+          .withUrl(environment.hubUrl)
           .withAutomaticReconnect()
           .build();
       }

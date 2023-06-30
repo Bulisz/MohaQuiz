@@ -31,6 +31,19 @@ export class ScoreComponent{
 
   scoring(multiple: number, index: number, score: number) {
     (document.getElementById(`score${index}`) as HTMLSpanElement).innerHTML = (multiple * score).toString()
+    if(multiple === 0){
+      (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = true;
+      (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = false;
+      (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = false;
+    } else if(multiple === 0.5){
+      (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = false;
+      (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = true;
+      (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = false;
+    } else if(multiple === 1){
+      (document.getElementById(`btnn${index}`) as HTMLButtonElement).disabled = false;
+      (document.getElementById(`btnh${index}`) as HTMLButtonElement).disabled = false;
+      (document.getElementById(`btnf${index}`) as HTMLButtonElement).disabled = true;
+    }
   }
 
   getAnswerOfQuestionNumber(questionNumber: number): string {

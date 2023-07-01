@@ -24,13 +24,16 @@ export class NullableRoundAdminComponent implements OnInit {
 
   answersOfRound: Array<RoundAnswersOfTeamModel> = []
   teamAlreadySentAnswer: Array<string> = []
+  teamSecondSentAnswer: Array<string> = []
 
   constructor(private qs: QuizService, private gps: GameProcessService) { }
 
   ngOnInit() {
     this.gps.hc.off('GetTeamAnswer')
     this.gps.hc.on('GetNullableAnswers', (ans: RoundAnswersOfTeamModel) => {
-      this.answersOfRound.push(ans)
+      if (!this.teamSecondSentAnswer.includes(ans.teamName)) {
+        this.answersOfRound.push(ans)
+      }
     })
   }
 
@@ -39,6 +42,7 @@ export class NullableRoundAdminComponent implements OnInit {
   }
 
   nextRound() {
+    this.scoringToParent.emit()
     this.nextRoundToParent.emit()
   }
 
@@ -57,6 +61,8 @@ export class NullableRoundAdminComponent implements OnInit {
       }
       await this.gps.hc.invoke('SendNullableMessage', mes)
     } else {
+      this.teamSecondSentAnswer.push(teamName);
+
       let index = this.answersOfRound.findIndex(a => a.teamName == teamName);
       if (index > -1) {
         this.answersOfRound.splice(index, 1);
@@ -85,14 +91,21 @@ export class NullableRoundAdminComponent implements OnInit {
       }
       await this.gps.hc.invoke('SendNullableMessage', mes)
     } else {
+      this.teamSecondSentAnswer.push(teamName);
+
       let teamAnswers = this.answersOfRound.find(a => a.teamName == teamName);
-      for(let i = 0; i < teamAnswers!.answers.length; i++){
+      for (let i = 0; i < teamAnswers!.answers.length; i++) {
         await this.sendAnswer(teamAnswers!.answers[i])
       }
-      for(let i = 0; i < teamAnswers!.answers.length; i++){
+      for (let i = 0; i < teamAnswers!.answers.length; i++) {
         if (teamAnswers!.answers[i].teamAnswerText.length > 0) {
           await this.sendScores(teamAnswers!.answers[i])
         }
+      }
+      
+      let index = this.answersOfRound.findIndex(a => a.teamName == teamName);
+      if (index > -1) {
+        this.answersOfRound.splice(index, 1);
       }
 
       let mes: NullableMessageModel = {
@@ -100,11 +113,6 @@ export class NullableRoundAdminComponent implements OnInit {
         message: 'Nem volt benne nullázó'
       }
       await this.gps.hc.invoke('SendNullableMessage', mes)
-
-      let index = this.answersOfRound.findIndex(a => a.teamName == teamName);
-      if (index > -1) {
-        this.answersOfRound.splice(index, 1);
-      }
     }
   }
 

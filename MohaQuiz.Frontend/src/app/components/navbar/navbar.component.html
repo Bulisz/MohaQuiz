@@ -14,14 +14,11 @@
         <mat-nav-list>
           <a mat-list-item routerLink="">Home</a>
         </mat-nav-list>
-        <mat-nav-list *ngIf="!teamName">
+        <mat-nav-list *ngIf="!teamName && !gameProcessState.isGameStarted">
           <a mat-list-item routerLink="team">Csapatnév</a>
         </mat-nav-list>
         <mat-nav-list>
-          <a mat-list-item routerLink="admin">JátékMester</a>
-        </mat-nav-list>
-        <mat-nav-list>
-          <a mat-list-item routerLink="game">Játék</a>
+          <a mat-list-item routerLink="game" *ngIf="teamName && gameProcessState.isGameStarted">Játék</a>
         </mat-nav-list>
       </mat-sidenav>
   

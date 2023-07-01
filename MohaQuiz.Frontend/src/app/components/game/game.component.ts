@@ -12,7 +12,7 @@ import { QuizService } from 'src/app/services/quiz.service';
 })
 export class GameComponent implements OnInit,OnDestroy {
 
-  gameProcessState: GameProcessStateModel = {roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false}
+  gameProcessState: GameProcessStateModel = {roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false}
   roundDetails!: RoundDetailsModel
   scoringReady = false
 

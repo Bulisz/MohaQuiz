@@ -17,3 +17,20 @@
     font-size: 2rem;
     margin-bottom: 1rem;
   }
+
+  p{
+    margin: 0;
+  }
+
+  .rules {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    padding: 1rem;
+  }
+
+  mat-divider {
+    margin: 0.5rem;
+  }

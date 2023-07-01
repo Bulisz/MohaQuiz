@@ -12,7 +12,7 @@ import { GameProcessStateModel } from '../models/game-process-state-model';
 export class GameProcessService {
 
   BASE_URL = environment.apiUrl + 'gameprocess/'
-  gameProcessState = new BehaviorSubject<GameProcessStateModel>({ roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false })
+  gameProcessState = new BehaviorSubject<GameProcessStateModel>({ roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false })
 
   constructor(private http: HttpClient, public hc: HubConnection, private router: Router) {
     this.hc.start()

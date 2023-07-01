@@ -19,12 +19,16 @@ export class TeamComponent {
   }
 
   async onSubmit() {
-    await this.qs.createTeam(this.teamNameForm.value)
+    if(this.teamNameForm.get('teamName')?.value === 'admin'){
+      this.router.navigate(['admin'])
+    } else {
+      await this.qs.createTeam(this.teamNameForm.value)
       .then(() => {
-        this.router.navigate([''])
+        this.router.navigate(['game'])
       })
       .catch(err => {
         this.teamNameForm.get('teamName')?.setErrors({ServerError: err.error})
       })
+    }
   }
 }

@@ -14,7 +14,7 @@ import { QuizService } from 'src/app/services/quiz.service';
 export class AdminComponent implements OnInit,OnDestroy {
 
   teamNames: Array<string> = []
-  gameProcessState: GameProcessStateModel = { roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false }
+  gameProcessState: GameProcessStateModel = { roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false }
   roundDetails!: RoundDetailsModel
   scoringFinished = false
 

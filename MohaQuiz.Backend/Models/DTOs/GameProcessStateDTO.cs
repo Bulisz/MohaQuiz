@@ -6,4 +6,5 @@ public record GameProcessStateDTO
     public int QuestionNumber { get; set; }
     public bool IsGameStarted { get; set; }
     public bool IsScoring { get; set; }
+    public bool IsGameFinished { get; set; }
 }

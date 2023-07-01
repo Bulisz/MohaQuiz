@@ -9,11 +9,11 @@ public class GameProcessService : IGameProcessService
 {
     private static int _actualRoundNumber;
     private static int _actualQuestionNumber;
-    private static int[]? _gameProcessArray;
     private static bool _isGameStarted;
     private static bool _isScoring;
+    private static bool _isGameFinished;
+    private static readonly int _mAX_ROUND_NUMBER = 6;
 
-    private static readonly int[] CURRENT_GAME_PROCESS = new int[] { 5, 5, 5, 5, 5, 5 };
     private readonly IHubContext<GameControlHub> _hubContext;
 
     public GameProcessService(IHubContext<GameControlHub> hubContext)
@@ -23,7 +23,6 @@ public class GameProcessService : IGameProcessService
 
     public async Task StartGame()
     {
-        _gameProcessArray = CURRENT_GAME_PROCESS;
         _actualRoundNumber = 1;
         _actualQuestionNumber = 0;
         _isGameStarted = true;
@@ -66,23 +65,32 @@ public class GameProcessService : IGameProcessService
         _actualQuestionNumber = 0;
         _isScoring = false;
 
+        if(_actualRoundNumber > _mAX_ROUND_NUMBER)
+        {
+            _isGameFinished = true;
+        }
+
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
     public async Task ResetGame()
     {
-        _gameProcessArray = Array.Empty<int>();
         _actualRoundNumber = 0;
         _actualQuestionNumber = 0;
         _isGameStarted = false;
         _isScoring = false;
+        _isGameFinished = false;
 
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 
     public static GameProcessStateDTO GetActualGameProcess()
     {
-        return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber, QuestionNumber = _actualQuestionNumber, IsGameStarted = _isGameStarted, IsScoring = _isScoring };
+        return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber,
+                                           QuestionNumber = _actualQuestionNumber,
+                                           IsGameStarted = _isGameStarted,
+                                           IsScoring = _isScoring,
+                                           IsGameFinished = _isGameFinished};
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TeamScoreSummaryModel } from 'src/app/models/team-score-summary-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -8,7 +8,7 @@ import { QuizService } from 'src/app/services/quiz.service';
   templateUrl: './score-of-team.component.html',
   styleUrls: ['./score-of-team.component.scss']
 })
-export class ScoreOfTeamComponent implements OnInit{
+export class ScoreOfTeamComponent implements OnInit,OnDestroy{
 
   scoreSummary!: TeamScoreSummaryModel
   total = 0
@@ -27,5 +27,9 @@ export class ScoreOfTeamComponent implements OnInit{
         this.total = this.scoreSummary.teamScoresPerRound.reduce((a,b) => a+b)
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.gps.hc.off('GetSummaryOfTeam')
   }
 }

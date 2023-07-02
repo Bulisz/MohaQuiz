@@ -17,6 +17,7 @@ public class GameControlHub : Hub
     public async Task ScoringReadyAsync(string teamName)
     {
         await Clients.All.SendAsync("GetReadyTeamName", teamName);
+        await Clients.All.SendAsync("GetSummaryOfTeam");
     }
 
     public async Task SendExtraAnswer(TeamAnswerDTO answer)

@@ -38,6 +38,7 @@ public class QuizService : IQuizService
 
         IEnumerable<string> teamNames = await GetAllTeamNamesAsync();
         await _hubContext.Clients.All.SendAsync("GetTeamNames", teamNames);
+        await _hubContext.Clients.All.SendAsync("GetSummaryOfTeam");
 
         return newTeamDTO;
     }
@@ -118,7 +119,7 @@ public class QuizService : IQuizService
     public async Task RandomizeTeamNamesAsync()
     {
         List<string> originalteamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
-        List<string> shuffledTeamNames = (await _quizRepository.GetAllTeamNamesAsync()).Select(t => t.TeamName).ToList();
+        List<string> shuffledTeamNames = originalteamNames.ToList();
 
         if (originalteamNames.Count == 1)
         {

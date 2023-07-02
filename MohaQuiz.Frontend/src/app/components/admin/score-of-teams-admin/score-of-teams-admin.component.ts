@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { TeamScoreSummaryModel } from 'src/app/models/team-score-summary-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -8,7 +8,7 @@ import { QuizService } from 'src/app/services/quiz.service';
   templateUrl: './score-of-teams-admin.component.html',
   styleUrls: ['./score-of-teams-admin.component.scss']
 })
-export class ScoreOfTeamsAdminComponent {
+export class ScoreOfTeamsAdminComponent implements OnDestroy {
 
   @Input() teamNames!: Array<string>
   allTeamScoreSummary: Array<TeamScoreSummaryModel> = []
@@ -28,5 +28,9 @@ export class ScoreOfTeamsAdminComponent {
       this.allTeamScoreSummary.push(await this.qs.getSummaryOfTeam(this.teamNames[i]))
       this.allTeamTotal.push(this.allTeamScoreSummary[i].teamScoresPerRound.reduce((a,b) => a+b))
     }
+  }
+  
+  ngOnDestroy(): void {
+    this.gps.hc.off('GetSummaryOfTeam');
   }
 }

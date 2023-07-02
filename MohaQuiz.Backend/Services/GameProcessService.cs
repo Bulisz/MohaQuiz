@@ -54,8 +54,6 @@ public class GameProcessService : IGameProcessService
     public async Task StopScoring()
     {
         _isScoring = false;
-
-        await _hubContext.Clients.All.SendAsync("GetSummaryOfTeam");
         await _hubContext.Clients.All.SendAsync("GetGameProcessState", GetActualGameProcess());
     }
 

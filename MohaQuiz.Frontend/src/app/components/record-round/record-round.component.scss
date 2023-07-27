@@ -1,0 +1,72 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    margin-top: 1rem;
+    display: flex;
+    width: 90%;
+    align-items: center;
+}
+
+.card mat-card-header {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.round-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.question-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.question-section2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.q-text {
+    width: 500px;
+}
+
+.q-num {
+    width: 80px;
+}
+
+.q-o {
+    width: 100%;
+}
+
+mat-form-field {
+    width: 300px;
+    max-width: 100%;
+}
+
+button {
+    margin-bottom: 1rem;
+    width: 120px;
+}
+
+mat-divider {
+    width: 100%;
+    margin-bottom: 1rem;
+}

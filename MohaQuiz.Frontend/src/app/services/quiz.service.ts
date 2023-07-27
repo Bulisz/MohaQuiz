@@ -11,6 +11,7 @@ import { RoundAnswersOfTeamModel } from '../models/round-answers-of-team-model';
 import { ScoringModel } from '../models/scoring-model';
 import { TeamScoreSummaryModel } from '../models/team-score-summary-model';
 import { GameSummaryModel } from '../models/game-summary-model';
+import { RecordRoundModel } from '../models/record-round-model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +80,13 @@ export class QuizService {
 
   async resetGame() {
     await firstValueFrom(this.http.get(`${this.BASE_URL}resetgame`))
+  }
+
+  async recordRound(round: RecordRoundModel) {
+    await firstValueFrom(this.http.post((`${this.BASE_URL}recordround`),round))
+  }
+
+  async getRoundTypes(): Promise<Array<string>> {
+    return await firstValueFrom(this.http.get<Array<string>>((`${this.BASE_URL}getroundtypes`)))
   }
 }

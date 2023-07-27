@@ -16,4 +16,6 @@ public interface IQuizService
     TeamNameDTO GetRandomTeam(string myTeamName);
     Task RandomizeTeamNamesAsync();
     Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync();
+    Task RecordRoundAsync(RoundRecordDTO roundRecordDTO);
+    Task<IEnumerable<string>> GetRoundTypesAsync();
 }

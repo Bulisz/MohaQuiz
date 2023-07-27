@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://peterthegreat-001-site1.gtempurl.com/mohaquiz/',
-    hubUrl: 'https://peterthegreat-001-site1.gtempurl.com/gamecontrolhub'
+    apiUrl: 'http://86.101.113.227:80/mohaquiz/',
+    hubUrl: 'http://86.101.113.227:80/gamecontrolhub'
 };

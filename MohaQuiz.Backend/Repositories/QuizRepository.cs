@@ -159,4 +159,21 @@ public class QuizRepository : IQuizRepository
         _context.Teams.RemoveRange(teams);
         await _context.SaveChangesAsync();
     }
+
+    public async Task RecordRoundAsync(Round newRound)
+    {
+        newRound.RoundNumber = _context.Rounds.Count() + 1;
+        _context.Rounds.Add(newRound);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<RoundType?> GetRoundTypeByName(string roundTypeName)
+    {
+        return await _context.RoundTypes.FirstOrDefaultAsync(rt => rt.RoundTypeName == roundTypeName);
+    }
+
+    public async Task<IEnumerable<string>> GetRoundTypesAsync()
+    {
+        return await _context.RoundTypes.Select(rt => rt.RoundTypeName).ToListAsync();
+    }
 }

@@ -21,6 +21,8 @@ export class TeamComponent {
   async onSubmit() {
     if(this.teamNameForm.get('teamName')?.value === 'admin'){
       this.router.navigate(['admin'])
+    } else if(this.teamNameForm.get('teamName')?.value === 'round'){
+        this.router.navigate(['recordRound'])
     } else {
       await this.qs.createTeam(this.teamNameForm.value)
       .then(() => {

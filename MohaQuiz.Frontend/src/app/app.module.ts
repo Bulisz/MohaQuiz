@@ -31,6 +31,7 @@ import { ScoreOfTeamsAdminComponent } from './components/admin/score-of-teams-ad
 import { ScoreOfTeamComponent } from './components/game/score-of-team/score-of-team.component';
 import { environment } from 'src/environments/environment';
 import { GameSummaryComponent } from './components/game-summary/game-summary.component';
+import { RecordRoundComponent } from './components/record-round/record-round.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { GameSummaryComponent } from './components/game-summary/game-summary.com
     ScoreAdminComponent,
     ScoreOfTeamsAdminComponent,
     ScoreOfTeamComponent,
-    GameSummaryComponent
+    GameSummaryComponent,
+    RecordRoundComponent
   ],
   imports: [
     BrowserModule,

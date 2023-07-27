@@ -65,7 +65,6 @@ public class QuizController : ControllerBase
         return Ok(summary);
     }
 
-
     [HttpPost(nameof(ScoringOfAQuestion))]
     public async Task<ActionResult> ScoringOfAQuestion(ScoringDTO scoringDTO)
     {
@@ -106,5 +105,19 @@ public class QuizController : ControllerBase
     {
         await _quizService.ResetGameAsync();
         return Ok();
+    }
+
+    [HttpPost(nameof(RecordRound))]
+    public async Task<ActionResult> RecordRound(RoundRecordDTO roundRecordDTO)
+    {
+        await _quizService.RecordRoundAsync(roundRecordDTO);
+        return Ok();
+    }
+
+    [HttpGet(nameof(GetRoundTypes))]
+    public async Task<ActionResult<IEnumerable<string>>> GetRoundTypes()
+    {
+        IEnumerable<string> roundTypes = await _quizService.GetRoundTypesAsync();
+        return Ok(roundTypes);
     }
 }

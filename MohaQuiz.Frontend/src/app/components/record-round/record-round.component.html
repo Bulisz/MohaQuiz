@@ -1,0 +1,232 @@
+<div class="body">
+    <mat-card class="card">
+        <mat-card-header>Kör szerkesztés:</mat-card-header>
+        <form [formGroup]="roundForm" (ngSubmit)="onSubmit()">
+            <div class="round-head">
+                <mat-form-field>
+                    <mat-label>A kör típusa</mat-label>
+                    <mat-select [(ngModel)]="selectedType" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let type of roundTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Írd be a kör nevét" formControlName="roundName">
+                </mat-form-field>
+            </div>
+
+            <mat-divider *ngIf="selectedType ==='Connection'"></mat-divider>
+            <h3 *ngIf="selectedType ==='Connection'">0. kérdés</h3>
+            <div class="question-section" *ngIf="selectedType ==='Connection'">
+                <mat-form-field class="q-text">
+                    <input type="text" matInput placeholder="A kérdés" formControlName="questionText0">
+                </mat-form-field>
+                <mat-form-field class="q-num">
+                    <input type="number" matInput formControlName="fullScore0">
+                </mat-form-field>
+                <mat-form-field class="q-text">
+                    <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText0">
+                </mat-form-field>
+            </div>
+            <mat-divider></mat-divider>
+
+            <h3>1. kérdés</h3>
+            <div class="q-o">
+                <div class="question-section">
+                    <mat-form-field class="q-text">
+                        <input type="text" matInput placeholder="A kérdés" formControlName="questionText1">
+                    </mat-form-field>
+                    <mat-form-field class="q-num">
+                        <input type="number" matInput formControlName="fullScore1">
+                    </mat-form-field>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText1">
+                        </mat-form-field>
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[0]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                    </div>
+                </div>
+                <div class="question-section2" *ngIf="selectedType ==='ABCD'">
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText11">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[1]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText12">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[2]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText13">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[3]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <h3>2. kérdés</h3>
+            <div class="q-o">
+                <div class="question-section">
+                    <mat-form-field class="q-text">
+                        <input type="text" matInput placeholder="A kérdés" formControlName="questionText2">
+                    </mat-form-field>
+                    <mat-form-field class="q-num">
+                        <input type="number" matInput formControlName="fullScore2">
+                    </mat-form-field>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText2">
+                        </mat-form-field>
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[10]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                    </div>
+                </div>
+                <div class="question-section2" *ngIf="selectedType ==='ABCD'">
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText21">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[11]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText22">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[12]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText23">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[13]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <h3>3. kérdés</h3>
+            <div class="q-o">
+                <div class="question-section">
+                    <mat-form-field class="q-text">
+                        <input type="text" matInput placeholder="A kérdés" formControlName="questionText3">
+                    </mat-form-field>
+                    <mat-form-field class="q-num">
+                        <input type="number" matInput formControlName="fullScore3">
+                    </mat-form-field>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText3">
+                        </mat-form-field>
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[20]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                    </div>
+                </div>
+                <div class="question-section2" *ngIf="selectedType ==='ABCD'">
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText31">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[21]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText32">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[22]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText33">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[23]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <h3>4. kérdés</h3>
+            <div class="q-o">
+                <div class="question-section">
+                    <mat-form-field class="q-text">
+                        <input type="text" matInput placeholder="A kérdés" formControlName="questionText4">
+                    </mat-form-field>
+                    <mat-form-field class="q-num">
+                        <input type="number" matInput formControlName="fullScore4">
+                    </mat-form-field>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText4">
+                        </mat-form-field>
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[30]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                    </div>
+                </div>
+                <div class="question-section2" *ngIf="selectedType ==='ABCD'">
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText41">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[31]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText42">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[32]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText43">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[33]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <h3>5. kérdés</h3>
+            <div class="q-o">
+                <div class="question-section">
+                    <mat-form-field class="q-text">
+                        <input type="text" matInput placeholder="A kérdés" formControlName="questionText5">
+                    </mat-form-field>
+                    <mat-form-field class="q-num">
+                        <input type="number" matInput formControlName="fullScore5">
+                    </mat-form-field>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText5">
+                        </mat-form-field>
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[40]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                    </div>
+                </div>
+                <div class="question-section2" *ngIf="selectedType ==='ABCD'">
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText51">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[41]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText52">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[42]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                    <div>
+                        <mat-form-field class="q-text">
+                            <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText53">
+                        </mat-form-field>
+                        <mat-checkbox [(ngModel)]="trueAnswer[43]" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="!roundForm.valid">Elküld</button>
+        </form>
+    </mat-card>
+</div>

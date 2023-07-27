@@ -156,4 +156,16 @@ public class QuizService : IQuizService
         }
         return list;
     }
+
+    public async Task RecordRoundAsync(RoundRecordDTO roundRecordDTO)
+    {
+        Round newRound = _mapper.Map<Round>(roundRecordDTO);
+        newRound.RoundType = (await _quizRepository.GetRoundTypeByName(roundRecordDTO.RoundTypeName))!;
+        await _quizRepository.RecordRoundAsync(newRound);
+    }
+
+    public async Task<IEnumerable<string>> GetRoundTypesAsync()
+    {
+        return await _quizRepository.GetRoundTypesAsync();
+    }
 }

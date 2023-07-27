@@ -17,8 +17,8 @@
         <mat-nav-list *ngIf="!teamName && !gameProcessState.isGameStarted">
           <a mat-list-item routerLink="team" (click)="snav.toggle()">Csapatnév</a>
         </mat-nav-list>
-        <mat-nav-list>
-          <a mat-list-item routerLink="game" *ngIf="teamName && gameProcessState.isGameStarted" (click)="snav.toggle()">Játék</a>
+        <mat-nav-list *ngIf="teamName && gameProcessState.isGameStarted">
+          <a mat-list-item routerLink="game" (click)="snav.toggle()">Játék</a>
         </mat-nav-list>
       </mat-sidenav>
   

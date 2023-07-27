@@ -1,0 +1,11 @@
+$theming-material-components-primary: mat-palette($mat-teal, 800);
+$theming-material-components-accent: mat-palette($mat-brown, 800);
+$theming-material-components-warn: mat-palette($mat-pink, 800);
+
+$theming-material-components-theme: mat-light-theme((
+    color:(
+        primary: $theming-material-components-primary,
+        accent: $theming-material-components-accent,
+        warn:   $theming-material-components-warn
+    )
+));

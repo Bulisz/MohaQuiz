@@ -28,6 +28,7 @@ export class NullableRoundComponent implements OnDestroy {
 
     for(let i=0; i<this.roundDetails.questions.length; i++){
       answer = {
+        gameName: this.gameProcessState.gameName,
         teamName: localStorage.getItem('teamName') as string,
         roundNumber: this.roundDetails.roundNumber,
         questionNumber: i + 1,

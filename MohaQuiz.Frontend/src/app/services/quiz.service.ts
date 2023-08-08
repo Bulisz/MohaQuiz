@@ -12,6 +12,9 @@ import { ScoringModel } from '../models/scoring-model';
 import { TeamScoreSummaryModel } from '../models/team-score-summary-model';
 import { GameSummaryModel } from '../models/game-summary-model';
 import { RecordRoundModel } from '../models/record-round-model';
+import { RoundOfGameModel } from '../models/round-of-game-model';
+import { TeamAndGameModel } from '../models/team-and-game-model';
+import { GameNameModel } from '../models/game-name-model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +53,8 @@ export class QuizService {
     return await firstValueFrom(this.http.get<Array<string>>(`${this.BASE_URL}getallteamnames`))
   }
 
-  async getRoundDetails(roundNumber: number): Promise<RoundDetailsModel> {
-    return await firstValueFrom(this.http.get<RoundDetailsModel>(`${this.BASE_URL}getrounddetails/${roundNumber}`))
+  async getRoundDetails(model: RoundOfGameModel): Promise<RoundDetailsModel> {
+    return await firstValueFrom(this.http.post<RoundDetailsModel>(`${this.BASE_URL}getrounddetails`,model))
   }
 
   async sendAnswer(teamAnswer: TeamAnswerModel) {
@@ -70,12 +73,12 @@ export class QuizService {
     await firstValueFrom(this.http.get(`${this.BASE_URL}randomizeteamnames`))
   }
 
-  async getSummaryOfTeam(teamName: string): Promise<TeamScoreSummaryModel> {
-    return await firstValueFrom(this.http.get<TeamScoreSummaryModel>(`${this.BASE_URL}getsummaryofteam/${teamName}`))
+  async getSummaryOfTeam(model: TeamAndGameModel): Promise<TeamScoreSummaryModel> {
+    return await firstValueFrom(this.http.post<TeamScoreSummaryModel>(`${this.BASE_URL}getsummaryofteam`,model))
   }
 
-  async getSummaryOfGame(): Promise<Array<GameSummaryModel>> {
-    return await firstValueFrom(this.http.get<Array<GameSummaryModel>>(`${this.BASE_URL}getsummaryofgame`))
+  async getSummaryOfGame(model: GameNameModel): Promise<Array<GameSummaryModel>> {
+    return await firstValueFrom(this.http.post<Array<GameSummaryModel>>(`${this.BASE_URL}getsummaryofgame`,model))
   }
 
   async resetGame() {
@@ -88,5 +91,13 @@ export class QuizService {
 
   async getRoundTypes(): Promise<Array<string>> {
     return await firstValueFrom(this.http.get<Array<string>>((`${this.BASE_URL}getroundtypes`)))
+  }
+
+  async createGame(model: GameNameModel) {
+    await firstValueFrom(this.http.post(`${this.BASE_URL}creategame`,model))
+  }
+
+  async getAllGameNames(): Promise<Array<string>> {
+    return await firstValueFrom(this.http.get<Array<string>>((`${this.BASE_URL}getallgamenames`)))
   }
 }

@@ -14,7 +14,7 @@ export class NavbarComponent implements OnDestroy,OnInit {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   teamName: string|null = null
-  gameProcessState: GameProcessStateModel = {roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false}
+  gameProcessState: GameProcessStateModel = {gameName: '', roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false}
 
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private qs: QuizService, private gps: GameProcessService) {

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TeamAndGameModel } from 'src/app/models/team-and-game-model';
 import { TeamScoreSummaryModel } from 'src/app/models/team-score-summary-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -22,7 +23,8 @@ export class ScoreOfTeamComponent implements OnInit,OnDestroy{
 
   async refreshScores(){
     if(localStorage.getItem('teamName')){
-      this.scoreSummary = await this.qs.getSummaryOfTeam(localStorage.getItem('teamName') as string)
+      let model: TeamAndGameModel = {gameName: this.gps.gameProcessState.value.gameName, teamName: localStorage.getItem('teamName') as string}
+      this.scoreSummary = await this.qs.getSummaryOfTeam(model)
       if(this.scoreSummary && this.scoreSummary.teamScoresPerRound.length > 0){
         this.total = this.scoreSummary.teamScoresPerRound.reduce((a,b) => a+b)
       }

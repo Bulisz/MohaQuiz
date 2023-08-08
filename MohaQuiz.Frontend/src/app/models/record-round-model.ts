@@ -1,4 +1,5 @@
 export interface RecordRoundModel {
+    gameName: string,
     roundTypeName: string,
     roundName: string,
     questions: Array<{

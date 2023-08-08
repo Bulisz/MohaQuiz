@@ -1,8 +1,18 @@
 <div class="body">
   <mat-card class="content">
     <mat-card-header>Game Start</mat-card-header>
-    <button mat-raised-button color="primary" class="start-btn" (click)="startGame()"
-      [disabled]="!teamNames.length || gameProcessState.isGameStarted">START</button>
+    <div>
+      <mat-form-field>
+        <mat-label>A játék neve:</mat-label>
+        <mat-select [(ngModel)]="selectedGameName" [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let gameName of gameNames" [value]="gameName">
+            {{gameName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="start-btn" (click)="startGame()"
+        [disabled]="!teamNames.length || gameProcessState.isGameStarted || !selectedGameName">START</button>
+    </div>
   </mat-card>
 </div>
 

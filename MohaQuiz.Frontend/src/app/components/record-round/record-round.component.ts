@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { GameNameModel } from 'src/app/models/game-name-model';
 import { RecordRoundModel } from 'src/app/models/record-round-model';
 import { QuizService } from 'src/app/services/quiz.service';
 
@@ -10,12 +11,18 @@ import { QuizService } from 'src/app/services/quiz.service';
 })
 export class RecordRoundComponent implements OnInit {
 
-  roundForm: FormGroup;
+  gameNameForm: FormGroup
+  gameNames: Array<string> = []
+  selectedGameName!: string
+  roundForm: FormGroup
   roundTypes: Array<string> = []
   selectedType!: string
   trueAnswer = new Array<boolean>(50)
 
   constructor(private qs: QuizService) {
+    this.gameNameForm = new FormBuilder().group({
+      gameName: new FormControl('', Validators.required),
+    })
     this.roundForm = new FormBuilder().group({
       roundName: new FormControl('', Validators.required),
 
@@ -63,12 +70,21 @@ export class RecordRoundComponent implements OnInit {
   async ngOnInit() {
     await this.qs.getRoundTypes()
       .then(res => this.roundTypes = res)
+    await this.qs.getAllGameNames()
+      .then(res => this.gameNames = res)
+  }
+
+  async recordGame(){
+    let model: GameNameModel = {gameName: this.gameNameForm.get('gameName')?.value}
+    await this.qs.createGame(model)
+      .then(() => this.gameNames.push(model.gameName))
   }
 
   async onSubmit() {
     let form: RecordRoundModel
     if(this.selectedType === 'Connection'){
       form = {
+        gameName: this.selectedGameName,
         roundName: this.roundForm.get('roundName')?.value,
         roundTypeName: this.selectedType,
         questions: [{
@@ -107,6 +123,7 @@ export class RecordRoundComponent implements OnInit {
         .then(() => this.roundForm.reset())
     } else if(this.selectedType === 'ABCD'){
       form = {
+        gameName: this.selectedGameName,
         roundName: this.roundForm.get('roundName')?.value,
         roundTypeName: this.selectedType,
         questions: [{
@@ -155,6 +172,7 @@ export class RecordRoundComponent implements OnInit {
       .then(() => this.roundForm.reset())
     } else {
       form = {
+        gameName: this.selectedGameName,
         roundName: this.roundForm.get('roundName')?.value,
         roundTypeName: this.selectedType,
         questions: [{

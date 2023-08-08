@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
+import { TeamAndGameModel } from 'src/app/models/team-and-game-model';
 import { TeamScoreSummaryModel } from 'src/app/models/team-score-summary-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -25,7 +26,8 @@ export class ScoreOfTeamsAdminComponent implements OnDestroy {
     this.allTeamScoreSummary = []
     this.allTeamTotal = []
     for (let i=0; i<this.teamNames.length; i++){
-      this.allTeamScoreSummary.push(await this.qs.getSummaryOfTeam(this.teamNames[i]))
+      let model: TeamAndGameModel = { gameName: this.gps.gameProcessState.value.gameName, teamName: this.teamNames[i]}
+      this.allTeamScoreSummary.push(await this.qs.getSummaryOfTeam(model))
       this.allTeamTotal.push(this.allTeamScoreSummary[i].teamScoresPerRound.reduce((a,b) => a+b))
     }
   }

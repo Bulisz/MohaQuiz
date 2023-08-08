@@ -30,10 +30,10 @@ public class GameProcessController : ControllerBase
         return Ok();
     }
 
-    [HttpGet(nameof(StartGame))]
-    public async Task<IActionResult> StartGame()
+    [HttpGet("startgame/{gameName}")]
+    public async Task<IActionResult> StartGame(string gameName)
     {
-        await _gameProcessService.StartGame();
+        await _gameProcessService.StartGame(gameName);
         return Ok();
     }
 

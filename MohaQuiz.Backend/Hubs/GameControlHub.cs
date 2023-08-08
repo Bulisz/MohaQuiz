@@ -10,7 +10,8 @@ public class GameControlHub : Hub
     public async Task SendRoundDetailsAsync(IQuizService quizService)
     {
         int actualRoundNumber = GameProcessService.GetActualGameProcess().RoundNumber;
-        RoundDetailsDTO roundDetailsDTO = await quizService.GetRoundDetailsAsync(actualRoundNumber);
+        string actualGameName = GameProcessService.GetActualGameProcess().GameName;
+        RoundDetailsDTO roundDetailsDTO = await quizService.GetRoundDetailsAsync(new() { RoundNumber = actualRoundNumber, GameName = actualGameName });
         await Clients.All.SendAsync("GetRoundDetails", roundDetailsDTO);
     }
 

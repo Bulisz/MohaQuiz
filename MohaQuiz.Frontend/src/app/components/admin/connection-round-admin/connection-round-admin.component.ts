@@ -45,6 +45,7 @@ export class ConnectionRoundAdminComponent implements OnInit,OnDestroy {
 
   async sendExtraAnswer(tn: string, ta: string){
     let amswerModel: TeamAnswerModel = {
+      gameName: this.gameProcessState.gameName,
       teamName: tn,
       roundNumber: this.gameProcessState.roundNumber,
       questionNumber: 0,
@@ -53,6 +54,7 @@ export class ConnectionRoundAdminComponent implements OnInit,OnDestroy {
     await this.qs.sendAnswer(amswerModel)
 
     let scoringModel: ScoringModel = {
+      gameName: this.gameProcessState.gameName,
       teamName: tn,
       roundNumber: this.gameProcessState.roundNumber,
       questionNumber: 0,

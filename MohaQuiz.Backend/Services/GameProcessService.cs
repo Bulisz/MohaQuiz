@@ -7,6 +7,7 @@ namespace MohaQuiz.Backend.Services;
 
 public class GameProcessService : IGameProcessService
 {
+    private static string _gameName = string.Empty;
     private static int _actualRoundNumber;
     private static int _actualQuestionNumber;
     private static bool _isGameStarted;
@@ -21,8 +22,9 @@ public class GameProcessService : IGameProcessService
         _hubContext = hubContext;
     }
 
-    public async Task StartGame()
+    public async Task StartGame(string gameName)
     {
+        _gameName = gameName;
         _actualRoundNumber = 1;
         _actualQuestionNumber = 0;
         _isGameStarted = true;
@@ -73,6 +75,7 @@ public class GameProcessService : IGameProcessService
 
     public async Task ResetGame()
     {
+        _gameName = string.Empty;
         _actualRoundNumber = 0;
         _actualQuestionNumber = 0;
         _isGameStarted = false;
@@ -84,7 +87,8 @@ public class GameProcessService : IGameProcessService
 
     public static GameProcessStateDTO GetActualGameProcess()
     {
-        return new GameProcessStateDTO() { RoundNumber = _actualRoundNumber,
+        return new GameProcessStateDTO() { GameName = _gameName,
+                                           RoundNumber = _actualRoundNumber,
                                            QuestionNumber = _actualQuestionNumber,
                                            IsGameStarted = _isGameStarted,
                                            IsScoring = _isScoring,

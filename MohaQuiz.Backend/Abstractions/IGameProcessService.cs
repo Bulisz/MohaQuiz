@@ -4,7 +4,7 @@ public interface IGameProcessService
 {
     Task NextRound();
     Task NextQuestion();
-    Task StartGame();
+    Task StartGame(string gameName);
     bool IsGameStarted();
     Task ResetGame();
     Task StartScoring();

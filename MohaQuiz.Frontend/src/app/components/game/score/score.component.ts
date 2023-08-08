@@ -22,6 +22,7 @@ export class ScoreComponent {
   async ngOnChanges() {
     if (this.roundDetails) {
       let roundAndTeam: RoundAndTeamModel = {
+        gameName: this.gps.gameProcessState.value.gameName,
         roundNumber: this.roundDetails.roundNumber,
         teamName: localStorage.getItem('teamName') as string
       }
@@ -63,6 +64,7 @@ export class ScoreComponent {
       score = Number((document.getElementById(`score${questionNumber}`) as HTMLSpanElement).innerHTML)
       if(score > 0){
         scoreModel = {
+          gameName: this.gps.gameProcessState.value.gameName,
           teamName: this.roundAnswersOfTeam.teamName,
           roundNumber: this.roundAnswersOfTeam.roundNumber,
           questionNumber: questionNumber,

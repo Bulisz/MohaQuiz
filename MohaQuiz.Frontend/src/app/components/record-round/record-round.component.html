@@ -1,6 +1,25 @@
 <div class="body">
     <mat-card class="card">
         <mat-card-header>Kör szerkesztés:</mat-card-header>
+        <form [formGroup]="gameNameForm" (ngSubmit)="recordGame()">
+            <div class="round-head">
+                <mat-form-field>
+                    <mat-label>A játék neve:</mat-label>
+                    <mat-select [(ngModel)]="selectedGameName" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let gameName of gameNames" [value]="gameName">
+                            {{gameName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div>
+                    <mat-form-field>
+                        <input matInput placeholder="Írd be az új játék nevét" formControlName="gameName">
+                    </mat-form-field>
+                    <button type="submit" class="gameNameBtn" mat-raised-button color="primary" [disabled]="!gameNameForm.valid">Elküld</button>
+                </div>
+            </div>
+        </form>
+
         <form [formGroup]="roundForm" (ngSubmit)="onSubmit()">
             <div class="round-head">
                 <mat-form-field>
@@ -44,7 +63,8 @@
                         <mat-form-field class="q-text">
                             <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText1">
                         </mat-form-field>
-                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[0]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[0]"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>
                     </div>
                 </div>
                 <div class="question-section2" *ngIf="selectedType ==='ABCD'">
@@ -83,7 +103,8 @@
                         <mat-form-field class="q-text">
                             <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText2">
                         </mat-form-field>
-                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[10]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[10]"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>
                     </div>
                 </div>
                 <div class="question-section2" *ngIf="selectedType ==='ABCD'">
@@ -122,7 +143,8 @@
                         <mat-form-field class="q-text">
                             <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText3">
                         </mat-form-field>
-                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[20]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[20]"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>
                     </div>
                 </div>
                 <div class="question-section2" *ngIf="selectedType ==='ABCD'">
@@ -161,7 +183,8 @@
                         <mat-form-field class="q-text">
                             <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText4">
                         </mat-form-field>
-                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[30]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[30]"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>
                     </div>
                 </div>
                 <div class="question-section2" *ngIf="selectedType ==='ABCD'">
@@ -200,7 +223,8 @@
                         <mat-form-field class="q-text">
                             <input type="text" matInput placeholder="A válasz" formControlName="correctAnswerText5">
                         </mat-form-field>
-                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[40]" [ngModelOptions]="{standalone: true}"></mat-checkbox>   
+                        <mat-checkbox *ngIf="selectedType ==='ABCD'" [(ngModel)]="trueAnswer[40]"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>
                     </div>
                 </div>
                 <div class="question-section2" *ngIf="selectedType ==='ABCD'">

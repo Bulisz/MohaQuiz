@@ -55,9 +55,9 @@ public class QuizService : IQuizService
         return teams.Select(t => t.TeamName);
     }
 
-    public async Task<RoundDetailsDTO> GetRoundDetailsAsync(int roundnumber)
+    public async Task<RoundDetailsDTO> GetRoundDetailsAsync(RoundOfGameDTO roundOfGame)
     {
-        return _mapper.Map<RoundDetailsDTO>(await _quizRepository.GetRoundDetailsAsync(roundnumber));
+        return _mapper.Map<RoundDetailsDTO>(await _quizRepository.GetRoundDetailsAsync(roundOfGame));
     }
 
     public async Task SendAnswerAsync(TeamAnswerDTO answerDTO)
@@ -83,10 +83,10 @@ public class QuizService : IQuizService
         await _quizRepository.ScoringOfAQuestionAsync(scoringDTO);
     }
 
-    public async Task<TeamScoreSummaryDTO> GetSummaryOfTeamAsync(string teamName)
+    public async Task<TeamScoreSummaryDTO> GetSummaryOfTeamAsync(TeamAndGameDTO teamAndGame)
     {
-        Team? team = await _quizRepository.GetTeamByNameAsync(teamName);
-        int roundAmount = await _quizRepository.GetRoundAmountAsync();
+        Team? team = await _quizRepository.GetSummaryTeamByNameAsync(teamAndGame);
+        int roundAmount = await _quizRepository.GetRoundAmountAsync(teamAndGame.GameName);
 
         List<double> summary = new();
         if (team is not null)
@@ -101,9 +101,9 @@ public class QuizService : IQuizService
         return summaryDTO;
     }
 
-    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync()
+    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync(GameNameDTO gameName)
     {
-        return await _quizRepository.GetSummaryOfGameAsync();
+        return await _quizRepository.GetSummaryOfGameAsync(gameName);
     }
 
     public TeamNameDTO GetRandomTeam(string myTeamName)
@@ -161,11 +161,23 @@ public class QuizService : IQuizService
     {
         Round newRound = _mapper.Map<Round>(roundRecordDTO);
         newRound.RoundType = (await _quizRepository.GetRoundTypeByName(roundRecordDTO.RoundTypeName))!;
+        newRound.Game = (await _quizRepository.GetGameByName(roundRecordDTO.GameName))!;
         await _quizRepository.RecordRoundAsync(newRound);
     }
 
     public async Task<IEnumerable<string>> GetRoundTypesAsync()
     {
         return await _quizRepository.GetRoundTypesAsync();
+    }
+
+    public async Task CreateGameAsync(string gameName)
+    {
+        await _quizRepository.CreateGameAsync(gameName);
+    }
+
+    public async Task<IEnumerable<string>> GetAllGameNamesAsync()
+    {
+        IEnumerable<Game> games = await _quizRepository.GetAllGameNamesAsync();
+        return games.Select(g => g.GameName);
     }
 }

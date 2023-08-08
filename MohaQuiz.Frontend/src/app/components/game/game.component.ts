@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameProcessStateModel } from 'src/app/models/game-process-state-model';
 import { RoundDetailsModel } from 'src/app/models/round-details-model';
+import { RoundOfGameModel } from 'src/app/models/round-of-game-model';
 import { TeamAnswerModel } from 'src/app/models/team-answer-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -12,7 +13,7 @@ import { QuizService } from 'src/app/services/quiz.service';
 })
 export class GameComponent implements OnInit,OnDestroy {
 
-  gameProcessState: GameProcessStateModel = {roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false}
+  gameProcessState: GameProcessStateModel = {gameName: '', roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false}
   roundDetails!: RoundDetailsModel
   scoringReady = false
 
@@ -31,7 +32,8 @@ export class GameComponent implements OnInit,OnDestroy {
       this.roundDetails = rd
       this.scoringReady = false
       })
-    this.roundDetails = await this.qs.getRoundDetails(this.gameProcessState.roundNumber)
+    let model: RoundOfGameModel = { gameName: this.gameProcessState.gameName, roundNumber: this.gameProcessState.roundNumber}
+    this.roundDetails = await this.qs.getRoundDetails(model)
   }
 
   async sendAnswer(teamAnswer: TeamAnswerModel){

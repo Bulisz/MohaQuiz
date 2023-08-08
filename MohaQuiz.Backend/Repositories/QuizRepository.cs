@@ -53,12 +53,13 @@ public class QuizRepository : IQuizRepository
         return await _context.Teams.OrderBy(t => t.Id).ToListAsync();
     }
 
-    public async Task<Round> GetRoundDetailsAsync(int roundnumber)
+    public async Task<Round> GetRoundDetailsAsync(RoundOfGameDTO rounfOfGame)
     {
-        Round round = (await _context.Rounds.Include(r => r.RoundType)
+        Round round = (await _context.Rounds.Include(r => r.Game)
+                                           .Include(r => r.RoundType)
                                            .Include(r => r.Questions.OrderBy(q => q.QuestionNumber))
                                            .ThenInclude(q => q.CorrectAnswers)
-                                           .FirstOrDefaultAsync(r => r.RoundNumber == roundnumber))!;
+                                           .FirstOrDefaultAsync(r => r.RoundNumber == rounfOfGame.RoundNumber && r.Game.GameName == rounfOfGame.GameName))!;
 
         return round;
     }
@@ -68,8 +69,10 @@ public class QuizRepository : IQuizRepository
         bool aswerExists = await _context.TeamAnswers
                                     .Include(a => a.Question)
                                     .ThenInclude(q => q.Round)
+                                    .ThenInclude(r => r.Game)
                                     .Include(a => a.Team)
-                                    .AnyAsync(a => a.Question.Round.RoundNumber == answerDTO.RoundNumber &&
+                                    .AnyAsync(a => a.Question.Round.Game.GameName == answerDTO.GameName &&
+                                                   a.Question.Round.RoundNumber == answerDTO.RoundNumber &&
                                                    a.Question.QuestionNumber == answerDTO.QuestionNumber &&
                                                    a.Team.TeamName == answerDTO.TeamName);
 
@@ -77,7 +80,9 @@ public class QuizRepository : IQuizRepository
         {
             Question question = (await _context.Questions
                                     .Include(q => q.Round)
-                                    .FirstOrDefaultAsync(q => q.Round.RoundNumber == answerDTO.RoundNumber &&
+                                    .ThenInclude(r => r.Game)
+                                    .FirstOrDefaultAsync(q => q.Round.Game.GameName == answerDTO.GameName &&
+                                                              q.Round.RoundNumber == answerDTO.RoundNumber &&
                                                               q.QuestionNumber == answerDTO.QuestionNumber))!;
 
             Team team = (await _context.Teams.FirstOrDefaultAsync(t => t.TeamName == answerDTO.TeamName))!;
@@ -99,8 +104,10 @@ public class QuizRepository : IQuizRepository
         List<TeamAnswer> answers = await _context.TeamAnswers
                                         .Include(a => a.Question)
                                         .ThenInclude(q => q.Round)
+                                        .ThenInclude(r => r.Game)
                                         .Include(a => a.Team)
                                         .Where(a => a.Team.TeamName == roundAndTeam.TeamName &&
+                                                    a.Question.Round.Game.GameName == roundAndTeam.GameName &&
                                                     a.Question.Round.RoundNumber == roundAndTeam.RoundNumber &&
                                                     a.Question.QuestionNumber > 0)
                                         .OrderBy(a => a.Question.QuestionNumber)
@@ -109,18 +116,22 @@ public class QuizRepository : IQuizRepository
         return answers;
     }
 
-    public async Task<Team?> GetTeamByNameAsync(string teamName)
+    public async Task<Team?> GetSummaryTeamByNameAsync(TeamAndGameDTO teamAndGame)
     {
         Team? team = await _context.Teams.Include(t => t.TeamAnswers)
                                   .ThenInclude(a => a.Question)
                                   .ThenInclude(q => q.Round)
-                                  .FirstOrDefaultAsync(t => t.TeamName == teamName);
+                                  .ThenInclude(r => r.Game)
+                                  .FirstOrDefaultAsync(t => t.TeamName == teamAndGame.TeamName);
+        if (team is not null)
+            team.TeamAnswers = team.TeamAnswers.Where(ta => ta.Question.Round.Game.GameName == teamAndGame.GameName).ToList();
+
         return team;
     }
 
-    public async Task<int> GetRoundAmountAsync()
+    public async Task<int> GetRoundAmountAsync(string gameName)
     {
-        return await _context.Rounds.CountAsync();
+        return await _context.Rounds.Where(r => r.Game.GameName == gameName).CountAsync();
     }
 
     public async Task ScoringOfAQuestionAsync(ScoringDTO scoringDTO)
@@ -128,8 +139,10 @@ public class QuizRepository : IQuizRepository
         TeamAnswer? answer = await _context.TeamAnswers
                                                 .Include(a => a.Question)
                                                 .ThenInclude(q => q.Round)
+                                                .ThenInclude(r => r.Game)
                                                 .Include(a => a.Team)
                                                 .FirstOrDefaultAsync(a => a.Team.TeamName == scoringDTO.TeamName
+                                                                  && a.Question.Round.Game.GameName == scoringDTO.GameName
                                                                   && a.Question.Round.RoundNumber == scoringDTO.RoundNumber
                                                                   && a.Question.QuestionNumber == scoringDTO.QuestionNumber
                                                                   && a.GivenScore == 0);
@@ -141,14 +154,17 @@ public class QuizRepository : IQuizRepository
         }
     }
 
-    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync()
+    public async Task<IEnumerable<GameSummaryDTO>> GetSummaryOfGameAsync(GameNameDTO gameName)
     {
         IEnumerable<Team> teams = await _context.Teams
                                                     .Include(t => t.TeamAnswers)
+                                                    .ThenInclude(ta => ta.Question)
+                                                    .ThenInclude(q => q.Round)
+                                                    .ThenInclude(r => r.Game)
                                                     .OrderByDescending(t => t.TeamAnswers.Sum(a => a.GivenScore))
                                                     .ToListAsync();
 
-        return teams.Select(t => new GameSummaryDTO { TeamName = t.TeamName, TeamScore = t.TeamAnswers.Sum(a => a.GivenScore) });
+        return teams.Select(t => new GameSummaryDTO { TeamName = t.TeamName, TeamScore = t.TeamAnswers.Where(ta => ta.Question.Round.Game.GameName == gameName.GameName).Sum(a => a.GivenScore) });
     }
 
     public async Task ResetGameAsync()
@@ -175,5 +191,22 @@ public class QuizRepository : IQuizRepository
     public async Task<IEnumerable<string>> GetRoundTypesAsync()
     {
         return await _context.RoundTypes.Select(rt => rt.RoundTypeName).ToListAsync();
+    }
+
+    public async Task CreateGameAsync(string gameName)
+    {
+        Game game = new() { GameName = gameName };
+        _context.Games.Add(game);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Game?> GetGameByName(string gameName)
+    {
+        return await _context.Games.FirstOrDefaultAsync(g => g.GameName == gameName);
+    }
+
+    public async Task<IEnumerable<Game>> GetAllGameNamesAsync()
+    {
+        return await _context.Games.OrderBy(t => t.Id).ToListAsync();
     }
 }

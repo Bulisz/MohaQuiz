@@ -1,8 +1,7 @@
 ﻿namespace MohaQuiz.Backend.Models.DTOs;
 
-public record RoundAndTeamDTO
+public class TeamAndGameDTO
 {
     public string TeamName { get; set; } = string.Empty;
     public string GameName { get; set; } = string.Empty;
-    public int RoundNumber { get; set; }
 }

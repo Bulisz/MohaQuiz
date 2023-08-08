@@ -2,6 +2,7 @@
 
 public record RoundRecordDTO
 {
+    public string GameName { get; set; } = string.Empty;
     public string RoundTypeName { get; set; } = string.Empty;
     public string RoundName { get; set; } = string.Empty;
     public List<QuestionRecordDTO> Questions { get; set; } = null!;

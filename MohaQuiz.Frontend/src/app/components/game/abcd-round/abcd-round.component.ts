@@ -20,7 +20,8 @@ export class AbcdRoundComponent implements OnDestroy {
     let answerText = this.answers[i]
     if(answerText.length > 0){
       teamAnswer =
-        { teamName: localStorage.getItem('teamName') as string,
+        { gameName: this.gameProcessState.gameName,
+          teamName: localStorage.getItem('teamName') as string,
           roundNumber: this.roundDetails.roundNumber,
           questionNumber: questionNumber,
           teamAnswerText: answerText };
@@ -34,7 +35,8 @@ export class AbcdRoundComponent implements OnDestroy {
     for(let i= 0; i < this.roundDetails.questions.length; i++){
       if(this.answers[i].length < 1){
         teamAnswer =
-        { teamName: localStorage.getItem('teamName') as string,
+        { gameName: this.gameProcessState.gameName,
+          teamName: localStorage.getItem('teamName') as string,
           roundNumber: this.roundDetails.roundNumber,
           questionNumber: i + 1,
           teamAnswerText: '' };

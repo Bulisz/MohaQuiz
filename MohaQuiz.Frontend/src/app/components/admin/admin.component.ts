@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameProcessStateModel } from 'src/app/models/game-process-state-model';
 import { RoundDetailsModel } from 'src/app/models/round-details-model';
+import { RoundOfGameModel } from 'src/app/models/round-of-game-model';
 import { TeamAnswerModel } from 'src/app/models/team-answer-model';
 import { GameProcessService } from 'src/app/services/game-process.service';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -13,8 +14,10 @@ import { QuizService } from 'src/app/services/quiz.service';
 })
 export class AdminComponent implements OnInit,OnDestroy {
 
+  gameNames: Array<string> = []
+  selectedGameName!: string
   teamNames: Array<string> = []
-  gameProcessState: GameProcessStateModel = { roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false }
+  gameProcessState: GameProcessStateModel = { gameName: '', roundNumber: 0, questionNumber: 0, isGameStarted: false, isScoring: false, isGameFinished: false }
   roundDetails!: RoundDetailsModel
   scoringFinished = false
 
@@ -27,6 +30,9 @@ export class AdminComponent implements OnInit,OnDestroy {
   async ngOnInit() {
     await this.qs.getAllTeamNames()
       .then(tn => this.teamNames = tn)
+
+      await this.qs.getAllGameNames()
+      .then(res => this.gameNames = res)
 
     this.gps.gameProcessState.subscribe({
       next: gp => this.gameProcessState = gp
@@ -42,7 +48,7 @@ export class AdminComponent implements OnInit,OnDestroy {
   async startGame() {
     this.gps.hc.off('GetTeamNames')
 
-    await this.gps.startGame()
+    await this.gps.startGame(this.selectedGameName)
     await this.qs.randomizeTeamNames()
     this.gps.hc.invoke('SendRoundDetailsAsync')
     await this.refreshRound(1)
@@ -80,7 +86,8 @@ export class AdminComponent implements OnInit,OnDestroy {
   }
 
   async refreshRound(roundNumber: number){
-    this.roundDetails = await this.qs.getRoundDetails(roundNumber)
+    let model : RoundOfGameModel = { gameName: this.gameProcessState.gameName, roundNumber: roundNumber}
+    this.roundDetails = await this.qs.getRoundDetails(model)
   }
 
   popupTeamAnswers(teamAnswer: TeamAnswerModel) {

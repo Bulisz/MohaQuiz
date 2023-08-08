@@ -44,10 +44,10 @@ public class QuizController : ControllerBase
         return Ok(allTeamNames);
     }
 
-    [HttpGet("getrounddetails/{roundnumber}")]
-    public async Task<ActionResult<RoundDetailsDTO>> GetRoundDetails(int roundnumber)
+    [HttpPost(nameof(GetRoundDetails))]
+    public async Task<ActionResult<RoundDetailsDTO>> GetRoundDetails(RoundOfGameDTO roundOfGame)
     {
-        RoundDetailsDTO roundDetailsDTO = await _quizService.GetRoundDetailsAsync(roundnumber);
+        RoundDetailsDTO roundDetailsDTO = await _quizService.GetRoundDetailsAsync(roundOfGame);
         return Ok(roundDetailsDTO);
     }
 
@@ -72,17 +72,17 @@ public class QuizController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("getsummaryofteam/{teamName}")]
-    public async Task<ActionResult<TeamScoreSummaryDTO>> GetSummaryOfTeam(string teamName)
+    [HttpPost(nameof(GetSummaryOfTeam))]
+    public async Task<ActionResult<TeamScoreSummaryDTO>> GetSummaryOfTeam(TeamAndGameDTO teamAndGame)
     {
-        TeamScoreSummaryDTO summary = await _quizService.GetSummaryOfTeamAsync(teamName);
+        TeamScoreSummaryDTO summary = await _quizService.GetSummaryOfTeamAsync(teamAndGame);
         return Ok(summary);
     }
 
-    [HttpGet(nameof(GetSummaryOfGame))]
-    public async Task<ActionResult<IEnumerable<GameSummaryDTO>>> GetSummaryOfGame()
+    [HttpPost(nameof(GetSummaryOfGame))]
+    public async Task<ActionResult<IEnumerable<GameSummaryDTO>>> GetSummaryOfGame(GameNameDTO gameName)
     {
-        IEnumerable<GameSummaryDTO> summary = await _quizService.GetSummaryOfGameAsync();
+        IEnumerable<GameSummaryDTO> summary = await _quizService.GetSummaryOfGameAsync(gameName);
         return Ok(summary);
     }
 
@@ -107,8 +107,22 @@ public class QuizController : ControllerBase
         return Ok();
     }
 
+    [HttpPost(nameof(CreateGame))]
+    public async Task<IActionResult> CreateGame(GameNameDTO gameName)
+    {
+        await _quizService.CreateGameAsync(gameName.GameName);
+        return Ok();
+    }
+
+    [HttpGet(nameof(GetAllGameNames))]
+    public async Task<ActionResult<IEnumerable<string>>> GetAllGameNames()
+    {
+        IEnumerable<string> allGameNames = await _quizService.GetAllGameNamesAsync();
+        return Ok(allGameNames);
+    }
+
     [HttpPost(nameof(RecordRound))]
-    public async Task<ActionResult> RecordRound(RoundRecordDTO roundRecordDTO)
+    public async Task<IActionResult> RecordRound(RoundRecordDTO roundRecordDTO)
     {
         await _quizService.RecordRoundAsync(roundRecordDTO);
         return Ok();

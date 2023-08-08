@@ -122,6 +122,7 @@ export class NullableRoundAdminComponent implements OnInit {
 
   async sendScores(score: TeamAnswerModel) {
     let scoring: ScoringModel = {
+      gameName: this.gameProcessState.gameName,
       teamName: score.teamName,
       roundNumber: score.roundNumber,
       questionNumber: score.questionNumber,

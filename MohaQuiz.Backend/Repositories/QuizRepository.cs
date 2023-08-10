@@ -174,7 +174,7 @@ public class QuizRepository : IQuizRepository
 
     public async Task RecordRoundAsync(Round newRound)
     {
-        newRound.RoundNumber = _context.Rounds.Count() + 1;
+        newRound.RoundNumber = _context.Rounds.Include(r => r.Game).Where(r => r.Game.GameName == newRound.Game.GameName).Count() + 1;
         _context.Rounds.Add(newRound);
         await _context.SaveChangesAsync();
     }

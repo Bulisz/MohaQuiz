@@ -16,16 +16,9 @@ public class Program
 
         // Add services to the container.
 
-        if (builder.Environment.IsDevelopment())
-        {
-            string connectionString = builder.Configuration.GetConnectionString("Development") ?? throw new InvalidOperationException("No connectionString");
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
-        }
-        else
-        {
-            string connectionString = builder.Configuration.GetConnectionString("Production") ?? throw new InvalidOperationException("No connectionString");
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
-        }
+        string connectionString = builder.Configuration.GetConnectionString("Default") ?? throw new InvalidOperationException("No connectionString");
+        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+
 
         builder.Services.AddCorsRules();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -53,12 +46,6 @@ public class Program
 
         app.MapFallbackToFile("index.html");
         app.MapHub<GameControlHub>("/gamecontrolhub");
-
-        using (var scope = app.Services.CreateScope())
-        using (var context = scope.ServiceProvider.GetRequiredService<AppDbContext>())
-        {
-            await context.Database.MigrateAsync();
-        }
 
         app.Run();
     }

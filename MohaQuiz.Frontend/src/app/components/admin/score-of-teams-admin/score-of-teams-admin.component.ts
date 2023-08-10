@@ -27,8 +27,13 @@ export class ScoreOfTeamsAdminComponent implements OnDestroy {
     this.allTeamTotal = []
     for (let i=0; i<this.teamNames.length; i++){
       let model: TeamAndGameModel = { gameName: this.gps.gameProcessState.value.gameName, teamName: this.teamNames[i]}
-      this.allTeamScoreSummary.push(await this.qs.getSummaryOfTeam(model))
-      this.allTeamTotal.push(this.allTeamScoreSummary[i].teamScoresPerRound.reduce((a,b) => a+b))
+      await this.qs.getSummaryOfTeam(model)
+        .then(res =>{
+          if (res.teamScoresPerRound.length!==0){
+            this.allTeamScoreSummary.push(res)
+            this.allTeamTotal.push(this.allTeamScoreSummary[i].teamScoresPerRound.reduce((a,b) => a+b))
+          }
+        })
     }
   }
   

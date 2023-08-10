@@ -21,6 +21,11 @@ public class GameControlHub : Hub
         await Clients.All.SendAsync("GetSummaryOfTeam");
     }
 
+    public async Task FinishedScore()
+    {
+        await Clients.All.SendAsync("GetSummaryOfTeam");
+    }
+
     public async Task SendExtraAnswer(TeamAnswerDTO answer)
     {
         await Clients.All.SendAsync("GetExtraAnswer", answer);

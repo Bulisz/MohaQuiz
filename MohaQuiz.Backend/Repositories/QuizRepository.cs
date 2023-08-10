@@ -121,10 +121,7 @@ public class QuizRepository : IQuizRepository
         Team? team = await _context.Teams.Include(t => t.TeamAnswers)
                                   .ThenInclude(a => a.Question)
                                   .ThenInclude(q => q.Round)
-                                  .ThenInclude(r => r.Game)
                                   .FirstOrDefaultAsync(t => t.TeamName == teamAndGame.TeamName);
-        if (team is not null)
-            team.TeamAnswers = team.TeamAnswers.Where(ta => ta.Question.Round.Game.GameName == teamAndGame.GameName).ToList();
 
         return team;
     }
@@ -160,11 +157,10 @@ public class QuizRepository : IQuizRepository
                                                     .Include(t => t.TeamAnswers)
                                                     .ThenInclude(ta => ta.Question)
                                                     .ThenInclude(q => q.Round)
-                                                    .ThenInclude(r => r.Game)
                                                     .OrderByDescending(t => t.TeamAnswers.Sum(a => a.GivenScore))
                                                     .ToListAsync();
 
-        return teams.Select(t => new GameSummaryDTO { TeamName = t.TeamName, TeamScore = t.TeamAnswers.Where(ta => ta.Question.Round.Game.GameName == gameName.GameName).Sum(a => a.GivenScore) });
+        return teams.Select(t => new GameSummaryDTO { TeamName = t.TeamName, TeamScore = t.TeamAnswers.Sum(a => a.GivenScore) });
     }
 
     public async Task ResetGameAsync()

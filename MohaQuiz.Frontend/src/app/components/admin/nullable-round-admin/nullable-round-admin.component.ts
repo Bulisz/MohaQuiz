@@ -44,6 +44,7 @@ export class NullableRoundAdminComponent implements OnInit {
   nextRound() {
     this.scoringToParent.emit()
     this.nextRoundToParent.emit()
+    this.gps.hc.invoke('FinishedScore')
   }
 
   async bad(teamName: string) {

@@ -6,6 +6,10 @@ on:
     branches:
     - master
 
+env:
+  WEBAPP_NAME: mohaquiz
+  WEBAPP_PACKAGE_PATH: "./publish"
+
 jobs:
   publish:
     runs-on: windows-latest
@@ -25,5 +29,11 @@ jobs:
         run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build
-      
+        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output '${{ env.WEBAPP_PACKAGE_PATH }}'
+
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.WEBAPP_NAME }}
+          publish-profile: ${{ secrets.MOHAQUIZ1_PUBLISH_PROFILE }}
+          package: "${{ env.WEBAPP_PACKAGE_PATH }}"

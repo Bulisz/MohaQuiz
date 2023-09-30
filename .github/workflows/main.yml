@@ -40,5 +40,5 @@ jobs:
           server-username: mohaquiz1-001
           server-password: M0h4qU1z
           source-path: publish
-          target-path: /
+          target-path: mohaquiz
           target-delete: true

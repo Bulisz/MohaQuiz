@@ -32,6 +32,6 @@ jobs:
         run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output '${{ env.WEBAPP_PACKAGE_PATH }}'
 
       - name: Deployment
-        uses: azure/webapps-deploy@v2
+        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
         with:
           publish-profile: ${{ secrets.MOHAQUIZ1_PUBLISH_PROFILE }}

@@ -12,7 +12,6 @@ public class Program
 {
     public static void Main()
     {
-        //Try comit
         var builder = WebApplication.CreateBuilder();
 
         // Add services to the container.

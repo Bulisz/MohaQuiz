@@ -34,6 +34,4 @@ jobs:
       - name: Deployment
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.WEBAPP_NAME }}
           publish-profile: ${{ secrets.MOHAQUIZ1_PUBLISH_PROFILE }}
-          package: "${{ env.WEBAPP_PACKAGE_PATH }}"

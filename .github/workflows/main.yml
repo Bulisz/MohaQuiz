@@ -1,0 +1,29 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore
+        run: dotnet restore ./MohaQuiz.sln
+
+      - name: Build
+        run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build
+      

@@ -10,9 +10,9 @@ namespace MohaQuiz.Backend;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    public static void Main()
     {
-        var builder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder();
 
         // Add services to the container.
 

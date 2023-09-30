@@ -19,4 +19,4 @@ GET {{quizcontroller}}/getallteamnames
 
 ###
 
-DELETE {{quizcontroller}}/deleteteam/Hasdasdasd
+DELETE {{quizcontroller}}/deleteteam/valakik

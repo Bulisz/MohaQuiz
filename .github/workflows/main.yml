@@ -29,7 +29,7 @@ jobs:
         run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output '${{ env.WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build
 
       - name: Deployment
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
@@ -40,5 +40,5 @@ jobs:
           server-username: mohaquiz1-001
           server-password: M0h4qU1z
           source-path: publish
-          target-path: /site1/
+          target-path: /
           target-delete: true

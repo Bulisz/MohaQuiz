@@ -20,7 +20,7 @@
 on:
   push:
     branches:
-        - development
+        - development_none
   workflow_dispatch:
 
 env:

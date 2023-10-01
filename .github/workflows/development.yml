@@ -31,8 +31,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  deploy_frontend:
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: './MohaQuiz.Frontend'
@@ -57,19 +57,14 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: ./publish
 
-  deploy:
-        runs-on: windows-latest
-        steps:
-        - name: Deployment
-          uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
-          with:
-            website-name: mohaquiz1-001-site1
-            app-pool-name: mohaquiz1-001
-            server-computer-name: https://win6055.site4now.net:8172
-            server-username: mohaquiz1-001
-            server-password: M0h4qU1z
-            source-path: publish
-            target-path: /wwwroot/
-            target-delete: true
+    - name: Deployment
+      uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
+      with:
+         website-name: mohaquiz1-001-site1
+         app-pool-name: mohaquiz1-001
+         server-computer-name: https://win6055.site4now.net:8172
+         server-username: mohaquiz1-001
+         server-password: M0h4qU1z
+         target-path: /wwwroot/
+         target-delete: true

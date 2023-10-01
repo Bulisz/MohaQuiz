@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'MohaQuiz.Frontend'
+        working-directory: './MohaQuiz.Frontend'
 
     steps:
     - uses: actions/checkout@v3

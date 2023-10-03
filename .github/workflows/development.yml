@@ -15,11 +15,7 @@ jobs:
 
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
-        run: npm ci && npm run build
-      - uses: actions/upload-artifact@v3
-        with:
-          name: webpack artifacts
-          path: dist
+        run: md dist && npm ci && npm run build --target-path=dist && cd dist ## dir
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

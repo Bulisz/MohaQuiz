@@ -2,20 +2,26 @@ on:
   workflow_dispatch:
   push:
     branches:
-        - development
-env:
-  NODE_VERSION: '20.x'  
+        - development 
 
 jobs:
   build_and_deploy:
     runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
     
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
-        run: md dist && npm ci && npm run build --target-path=dist && cd dist && dir
+        run: md dist
+             npm ci
+             npm run build --target-path=dist
+             cd dist
+             dir
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

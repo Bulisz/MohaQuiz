@@ -9,11 +9,13 @@ env:
 jobs:
   build_and_deploy:
     runs-on: windows-latest
+    
     steps:
       - uses: actions/checkout@v1
 
       - name: Build application
-      - run: npm ci && ng build --configuration production --output-path=dist
+        working-directory: ./MohaQuiz.Frontend
+        run: npm ci && ng build --configuration production --output-path=dist
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

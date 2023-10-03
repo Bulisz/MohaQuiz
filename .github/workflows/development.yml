@@ -18,10 +18,10 @@ jobs:
 
       - name: Install and build
         working-directory: ./MohaQuiz.Frontend
-        run: npm install && npm run build
+        run: npm install && npm run build --configuration production --output-path=dist
         
       - name: Deployment
-        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
+        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
         with:
           website-name: mohaquiz1-001-site1
           app-pool-name: mohaquiz1-001
@@ -29,5 +29,5 @@ jobs:
           server-username: mohaquiz1-001
           server-password: M0h4qU1z
           source-path: MohaQuiz.Frontend/dist/MohaQuiz.Frontend/
-          target-path: /wwwroot/
+          target-path: '\dist\'
           target-delete: false

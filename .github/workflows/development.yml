@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -29,4 +29,4 @@ jobs:
           server-password: M0h4qU1z
           source-path: MohaQuiz.Frontend/dist/MohaQuiz.Frontend
           target-path: /wwwroot/
-          target-delete: true
+          target-delete: false

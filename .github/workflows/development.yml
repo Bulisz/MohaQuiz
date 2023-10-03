@@ -24,6 +24,8 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
-          source-path: ./MohaQuiz.Frontend/dist/MohaQuiz.Frontend/
+          source-path: MohaQuiz.Frontend/dist/MohaQuiz.Frontend/
           target-path: /wwwroot/
           target-delete: false
+      - name: Print
+        run: $echo dir

@@ -17,7 +17,8 @@ jobs:
 
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
-        run: md dist
+        run: |
+             md dist
              npm ci
              npm run build --target-path=dist
              cd dist

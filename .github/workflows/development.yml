@@ -18,7 +18,7 @@ jobs:
 
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
-        run: npm ci && npm run build && cd.. && dir
+        run: npm ci && npm run build && cd.. && cd.. && dir
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
@@ -27,6 +27,6 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
-          source-path: 'MohaQuiz.Frontend/dist/MohaQuiz.Frontend/'
+          source-path: 'D:\a\MohaQuiz\MohaQuiz'
           target-path: /wwwroot/
           target-delete: false

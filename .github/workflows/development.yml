@@ -19,6 +19,7 @@ jobs:
       - name: Install and build
         working-directory: ./MohaQuiz.Frontend
         run: npm install && npm run build
+        
       - name: Deployment
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
         with:
@@ -27,6 +28,6 @@ jobs:
           server-computer-name: https://win6055.site4now.net:8172
           server-username: mohaquiz1-001
           server-password: M0h4qU1z
-          source-path: MohaQuiz.Frontend/dist/MohaQuiz.Frontend
+          source-path: MohaQuiz.Frontend/dist/MohaQuiz.Frontend/
           target-path: /wwwroot/
           target-delete: false

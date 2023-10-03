@@ -31,4 +31,4 @@ jobs:
           server-password: ${{ secrets.SERVER_PASSWORD }}
           source-path: '\MohaQuiz.Frontend\dist\'
           target-path: /wwwroot/
-          target-delete: false
+          target-delete: true

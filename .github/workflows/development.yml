@@ -15,7 +15,7 @@ jobs:
 
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
-        run: npm ci && ng build --configuration production --output-path=dist
+        run: npm ci && npm build --configuration production --output-path=dist
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

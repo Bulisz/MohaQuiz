@@ -51,7 +51,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: .
+        path: ./.github/actions/dist
 
   deploy:
         runs-on: windows-latest
@@ -65,5 +65,5 @@ jobs:
             server-username: mohaquiz1-001
             server-password: M0h4qU1z
             source-path: publish
-            target-path: /
+            target-path: ./.github/actions/dist
             target-delete: true

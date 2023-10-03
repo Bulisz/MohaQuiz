@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Print
-        run: dir 
-
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
         run: npm ci && npm run build --output-path=dist && dir
@@ -27,6 +24,6 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
-          source-path: '\dist\'
+          source-path: '\MohaQuiz.Frontend\dist\'
           target-path: /wwwroot/
           target-delete: false

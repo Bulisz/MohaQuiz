@@ -13,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Print
+        run: dir
+
       - name: Build application
         working-directory: ./MohaQuiz.Frontend
         run: npm ci && npm run build
-
-      - name: Print
-        run: $dir
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

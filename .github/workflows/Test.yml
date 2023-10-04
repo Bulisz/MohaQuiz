@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - development
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./MohaQuiz.sln
+    - name: Build
+      run: dotnet build ./MohaQuiz.sln --no-restore
+    - name: Test
+      run: dotnet test ./MohaQuiz.Test/MohaQuiz.Test.csproj --no-build --verbosity normal

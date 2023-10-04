@@ -21,7 +21,7 @@ jobs:
     - name: Build
       run: dotnet build ./MohaQuiz.sln --no-restore
     - name: Test
-      run: dotnet test ./MohaQuiz.Test/MohaQuiz.Test.csproj --no-build --verbosity normal --logger "xunit;LogFilePath=test_results.xml"
+      run: dotnet test ./MohaQuiz.Test/MohaQuiz.Test.csproj --no-build --verbosity normal --logger:"xunit;LogFilePath=test_result.xml"
     - name: Test Report
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()

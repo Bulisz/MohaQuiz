@@ -11,9 +11,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
@@ -23,7 +23,7 @@ jobs:
     - name: Test
       run: dotnet test ./MohaQuiz.Test/MohaQuiz.Test.csproj --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" || true
     - name: Test Report
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter
       if: always()
       with:
         name: DotNET Tests

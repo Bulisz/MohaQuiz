@@ -23,10 +23,7 @@ jobs:
     - name: Test
       run: dotnet test ./MohaQuiz.Test/MohaQuiz.Test.csproj --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" || true
     - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: DotNET Tests
-        path: "/home/runner/work/MohaQuiz/MohaQuiz/MohaQuiz.Test/TestResults/test-results.trx"                            
-        reporter: dotnet-trx
-        fail-on-error: true
+      uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          rx_files: "/home/runner/work/MohaQuiz/MohaQuiz/MohaQuiz.Test/TestResults/test-results.trx"

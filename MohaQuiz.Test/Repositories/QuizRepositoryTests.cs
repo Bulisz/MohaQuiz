@@ -21,7 +21,6 @@ public class QuizRepositoryTests : IDisposable
         _repository = new QuizRepository(_context);
     }
 
-
     [Fact]
     public async Task CreateTeamAsync_Valid_Test()
     {

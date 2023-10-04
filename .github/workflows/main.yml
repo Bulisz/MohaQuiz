@@ -22,7 +22,7 @@ jobs:
         run: dotnet restore ./MohaQuiz.sln
 
       - name: Build
-        run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
+        run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore --no-self-contained
 
       - name: Publish
         run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output ./publish --no-self-contained --framework net7.0 -p:PublishTrimmed=true -p:PublishSingleFile=false

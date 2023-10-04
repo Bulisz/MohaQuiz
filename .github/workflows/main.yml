@@ -6,10 +6,6 @@ on:
     branches:
     - master
 
-env:
-  WEBAPP_NAME: mohaquiz
-  WEBAPP_PACKAGE_PATH: "./publish"
-
 jobs:
   publish:
     runs-on: windows-latest
@@ -29,16 +25,13 @@ jobs:
         run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output '${{ env.WEBAPP_PACKAGE_PATH }}' --self-contained false
+        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output ./publish --self-contained false
 
-      - name: Deployment
-        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.2
+      - name: Deploy to Simply
+        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
         with:
-          website-name: mohaquiz1-001-site1
-          app-pool-name: mohaquiz1-001
-          server-computer-name: https://win6055.site4now.net:8172
-          server-username: mohaquiz1-001
-          server-password: M0h4qU1z
-          source-path: publish
-          target-path: /
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
           target-delete: true

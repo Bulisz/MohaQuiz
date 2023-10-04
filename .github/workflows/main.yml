@@ -25,7 +25,7 @@ jobs:
         run: dotnet build ./MohaQuiz.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output ./publish --no-self-contained -p:PublishTrimmed=true -p:PublishSingleFile=false
+        run: dotnet publish ./MohaQuiz.sln --configuration Release --no-build --output ./publish --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=false
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8

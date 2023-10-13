@@ -11,3 +11,5 @@ A körök végén a helyes válaszokat az admin mondja meg.
 A csapatok egymást pontozzák.
 Az uj kört és a pontozás lezárását az admin vezérli.
 Vigyázz, ugy is lezárhatod a pontozást, hogy még nem minden csapat adta le a pontszámokat. A rendszer kiirja, hogy melyik csapat lett kész a pontozással. Figyelj rá, hogy mindenki kész legyen.
+
+## A játék honlapja: https://mohaquiz1-001-site1.etempurl.com/
